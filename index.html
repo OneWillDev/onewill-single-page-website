@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>ONE WILL - 建設×ITで未来を拓く</title>
+
+  <!-- Google Fonts (Bebas Neue + Montserrat + Noto Sans JP) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" 
+    rel="stylesheet"
+  />
+
+  <!-- AOS (Animate On Scroll) CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+  <style>
+    /*----------------------------------
+      RESET
+    ----------------------------------*/
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
+      color: #333;
+      line-height: 1.6;
+      background-color: #fff;
+      overflow-x: hidden; /* 横スクロール防止 */
+    }
+    img {
+      max-width: 100%; 
+      height: auto; 
+      display: block;
+    }
+    a {
+      color: inherit; 
+      text-decoration: none;
+    }
+    ul, li {
+      list-style: none;
+    }
+
+    /*----------------------------------
+      VARIABLES (CSS CUSTOM PROPERTIES)
+    ----------------------------------*/
+    :root {
+      --logo-font: 'Bebas Neue', sans-serif;
+      --main-font-jp: 'Noto Sans JP', sans-serif;
+      --main-font-en: 'Montserrat', sans-serif;
+      --main-color: #203A43;  
+      --accent-color: #FF5722; /* オレンジ */
+      --grad-start: #0f2027;
+      --grad-middle: #203a43;
+      --grad-end: #2c5364;
+      --light-gray: #f8f9fa;
+      --dark-gray: #1e1e1e;
+    }
+
+    /*----------------------------------
+      PRELOADER (ローディング画面)
+    ----------------------------------*/
+    #preloader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
+      background: #fff;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    #preloader.fade-out {
+      opacity: 0; 
+      visibility: hidden;
+    }
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 6px solid #ccc;
+      border-top: 6px solid var(--accent-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /*----------------------------------
+      GLOBAL LAYOUT
+    ----------------------------------*/
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /*----------------------------------
+      HEADER
+    ----------------------------------*/
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 64px;
+      background-color: rgba(255,255,255,0.9);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      z-index: 999;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .header-inner {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-logo {
+      font-family: var(--logo-font);
+      font-size: 2rem;
+      letter-spacing: 0.05em;
+      color: var(--main-color);
+      margin-left: -50px; 
+    }
+    nav.nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav.nav-links a {
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: opacity 0.3s;
+    }
+    nav.nav-links a:hover {
+      opacity: 0.7;
+    }
+    .hamburger {
+      display: none;
+      width: 24px; 
+      height: 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .hamburger span {
+      display: block;
+      width: 100%; 
+      height: 2px;
+      background: #333;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      flex-direction: column;
+      z-index: 998;
+    }
+    .mobile-menu a {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    .mobile-menu.open {
+      display: flex;
+    }
+    @media (max-width: 768px) {
+      nav.nav-links {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    /*----------------------------------
+      SIDE CTA (固定表示バー)
+    ----------------------------------*/
+    .side-cta {
+      position: fixed;
+      right: 20px;
+      top: 160px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 900; 
+    }
+    .side-cta a {
+      display: block;
+      background-color: var(--accent-color);
+      color: #fff;
+      text-align: center;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background 0.3s, transform 0.3s;
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+    .side-cta a:hover {
+      background-color: #e64a19;
+      transform: translateY(-2px);
+    }
+    @media (max-width: 768px) {
+      .side-cta {
+        position: static;
+        flex-direction: row;
+        justify-content: center;
+        margin: 0.5rem 0;
+      }
+      .side-cta a {
+        border-radius: 4px;
+        width: auto;
+      }
+    }
+
+    /*----------------------------------
+      SHAPED SECTION
+    ----------------------------------*/
+    .shaped-section {
+      position: relative;
+      padding-top: 5rem; 
+      padding-bottom: 5rem;
+      background: var(--light-gray);
+      clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+    }
+
+    /*----------------------------------
+      HERO
+    ----------------------------------*/
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background: 
+        linear-gradient(to bottom, var(--grad-start), var(--grad-middle), var(--grad-end)),
+        url('https://picsum.photos/1600/900?blur=2');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 0 1rem;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("images/construction-worker.jpg") no-repeat center/cover;
+      filter: blur(2px);
+      opacity: 0.4;
+      z-index: 0;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-title {
+      font-family: var(--logo-font);
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.05em;
+      font-weight: 400;
+      min-height: 2.6rem;
+    }
+    #typingCursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2rem;
+      background: #fff;
+      margin-left: 2px;
+      animation: blink 0.8s infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: var(--accent-color);
+      color: #fff;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: opacity 0.3s;
+      font-size: 1rem;
+    }
+    .hero-cta:hover {
+      opacity: 0.8;
+    }
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      .hero-desc {
+        font-size: 0.95rem;
+      }
+    }
+
+    /*----------------------------------
+      SECTION NUMBER + HEADING
+    ----------------------------------*/
+    .section-block {
+      position: relative;
+      padding: 4rem 0;
+      overflow: hidden;
+    }
+    .section-number {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 5rem;
+      color: #EEE;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .section-heading {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .section-heading h2 {
+      font-size: 2rem;
+      font-family: var(--main-font-en);
+      margin-bottom: 1rem;
+      color: #111;
+    }
+    @media (max-width: 768px) {
+      .section-number {
+        font-size: 3rem;
+        top: 10px;
+        right: 10px;
+      }
+    }
+
+    /*----------------------------------
+      SERVICES
+    ----------------------------------*/
+    .services-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .service-item {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      padding: 2rem;
+      max-width: 340px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      perspective: 1000px;
+    }
+    .service-item:hover {
+      transform: rotateY(3deg) rotateX(-3deg);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .service-icon {
+      width: 64px;
+      margin: 0 auto 1rem;
+    }
+    .service-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: var(--main-color);
+    }
+    .service-desc {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /*----------------------------------
+      ABOUT
+    ----------------------------------*/
+    .about-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    .about-text-block {
+      flex: 1;
+      min-width: 300px;
+      position: relative;
+    }
+    .about-text-block p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .about-text-block h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: var(--main-color);
+    }
+    .about-illustration {
+      width: 100px;
+      float: right;
+      margin: 0 0 1rem 1rem;
+    }
+    .about-text-block::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    #aboutImage {
+      flex: 1;
+      min-width: 300px;
+    }
+    #aboutImage img {
+      width: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    /*----------------------------------
+      BLOG / NEWS
+    ----------------------------------*/
+    .blog-news-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .blog-news-item {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      width: 350px;
+      max-width: 100%;
+      padding: 1.5rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .blog-news-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .blog-news-title {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--main-color);
+      font-size: 1.1rem;
+    }
+    .blog-news-date {
+      font-size: 0.8rem;
+      color: #999;
+      margin-bottom: 0.5rem;
+    }
+    .blog-news-desc {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    /*----------------------------------
+      CONTACT
+    ----------------------------------*/
+    .contact-form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      margin-top: 2rem;
+    }
+    .contact-form .form-group {
+      margin-bottom: 1rem;
+    }
+    .contact-form label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form select,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
+    .contact-form textarea {
+      height: 120px;
+      resize: vertical;
+    }
+    .contact-form button {
+      display: inline-block;
+      background: var(--main-color);
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+      font-weight: 600;
+      font-family: var(--main-font-en);
+      cursor: pointer;
+      border: none;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+    .contact-form button:hover {
+      background: #1b3036;
+    }
+    .contact-desc {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    /*----------------------------------
+      FOOTER
+    ----------------------------------*/
+    footer {
+      background: #203A43;
+      color: #eee;
+      padding: 2rem 0;
+      margin-top: 4rem;
+    }
+    .footer-inner {
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: var(--logo-font);
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+    .footer-address {
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .footer-social {
+      margin-bottom: 1rem;
+    }
+    .footer-social a {
+      margin: 0 0.4rem;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .footer-social a:hover {
+      opacity: 1;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
+    /*----------------------------------
+      NEW LOGO REPLACEMENT STYLES
+    ----------------------------------*/
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .logo-slash {
+      width: 20px;
+      height: 40px;
+      margin-right: 10px;
+      background: linear-gradient(to bottom, #333 0%, #ddd 100%);
+      transform: skewX(-20deg);
+    }
+    .logo-text {
+      display: flex;
+      align-items: baseline; 
+    }
+    .main-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: #111;
+      letter-spacing: 0.05em;
+    }
+    .sub-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; 
+      font-weight: 400;
+      color: #FF5722;
+      margin-left: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+    .sub-name span {
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<!-- =========================
+      PRELOADER
+========================== -->
+<div id="preloader">
+  <div class="loader"></div>
+</div>
+
+<!-- =========================
+      HEADER
+========================== -->
+<header>
+  <div class="header-inner">
+    <div class="header-logo">
+      <div class="logo-wrapper">
+        <div class="logo-slash"></div>
+        <div class="logo-text">
+          <div class="main-name">特定技能PRO</div>
+          <div class="sub-name">by <span>ONE WILL</span></div>
+        </div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#hero">トップ</a>
+      <a href="#services">サービス</a>
+      <a href="#about">会社概要</a>
+      <!-- メンバーへのリンクはそのまま -->
+      <a href="#team">メンバー</a>
+      <a href="#blog-news">ブログ/ニュース</a>
+      <a href="#contact">お問い合わせ</a>
+    </nav>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero">トップ</a>
+    <a href="#services">サービス</a>
+    <a href="#about">会社概要</a>
+    <!-- メンバーへのリンクはそのまま -->
+    <a href="#team">メンバー</a>
+    <a href="#blog-news">ブログ/ニュース</a>
+    <a href="#contact">お問い合わせ</a>
+  </div>
+</header>
+
+<!-- =========================
+      SIDE CTA
+========================== -->
+<div class="side-cta">
+  <a href="#services">サービス</a>
+  <a href="#contact">お問い合わせ</a>
+  <a href="#blog-news">最新情報</a>
+</div>
+
+<!-- =========================
+      HERO
+========================== -->
+<section class="hero" id="hero" data-aos="fade-up">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span id="typingText"></span>
+      <span id="typingCursor"></span>
+    </h1>
+    <p class="hero-desc">
+      ONE WILLは、日本で働くことを望むグローバル人材と<br>
+      人手不足に悩む企業をつなぐ架け橋となります。<br>
+      建設業界をはじめとするあらゆる分野でITを活用し、<br>
+      多様な人材が活躍できる環境を整えることで、<br>
+      日本が抱える社会課題を真正面から解決していきます。
+    </p>
+    <a href="#contact" class="hero-cta">お問い合わせ</a>
+  </div>
+</section>
+
+<!-- =========================
+      SERVICES
+========================== -->
+<section id="services" class="shaped-section">
+  <span class="section-number">01</span>
+  <div class="container" data-aos="fade-up">
+    <div class="section-heading">
+      <h2>SERVICES</h2>
+      <p>
+        建設分野を中心に、ITを掛け合わせた多角的なサービスを提供し、<br>
+        外国人材が日本で活躍できる最前線をサポートします。
+      </p>
+    </div>
+    <div class="services-list">
+      <div class="service-item" data-aos="fade-up" data-aos-delay="100">
+        <img src="https://cdn-icons-png.flaticon.com/512/446/446365.png" alt="建設企業向け求人" class="service-icon">
+        <h3 class="service-title">建設企業向け求人支援</h3>
+        <p class="service-desc">
+          建設業に特化した求人プラットフォームの運用で、<br>
+          外国人材の採用を円滑化。<br>
+          募集からビザ手続き、入社まで総合的にサポート！
+        </p>
+      </div>
+      <div class="service-item" data-aos="fade-up" data-aos-delay="200">
+        <img src="https://cdn-icons-png.flaticon.com/512/4486/4486998.png" alt="ビザ申請" class="service-icon">
+        <h3 class="service-title">ビザ申請代行</h3>
+        <p class="service-desc">
+          特定技能ビザなどの取得や更新に必要な書類を作成。<br>
+          入管とのやり取りも任せて安心。<br>
+          企業・人材の負担を大幅に軽減します。
+        </p>
+      </div>
+      <div class="service-item" data-aos="fade-up" data-aos-delay="300">
+        <img src="https://cdn-icons-png.flaticon.com/512/2791/2791082.png" alt="DX・IT導入" class="service-icon">
+        <h3 class="service-title">建設DX/IT導入支援</h3>
+        <p class="service-desc">
+          作業効率化やコミュニケーション促進のため、<br>
+          クラウドツールや翻訳システムなどを導入。<br>
+          グローバルチームをスムーズに管理。
+        </p>
+      </div>
+      <div class="service-item" data-aos="fade-up" data-aos-delay="400">
+        <img src="https://cdn-icons-png.flaticon.com/512/2983/2983237.png" alt="教育研修" class="service-icon">
+        <h3 class="service-title">教育研修・言語サポート</h3>
+        <p class="service-desc">
+          日本語学習・安全教育・ビジネスマナー研修など、<br>
+          外国人材が安心して働ける環境を整備。<br>
+          離職率の低減にも貢献します。
+        </p>
+      </div>
+      <div class="service-item" data-aos="fade-up" data-aos-delay="500">
+        <img src="https://cdn-icons-png.flaticon.com/512/2732/2732497.png" alt="登録支援機関連携" class="service-icon">
+        <h3 class="service-title">登録支援機関との連携</h3>
+        <p class="service-desc">
+          約200社との登録支援機関と協力し、<br>
+          スキル検証や在留管理の仕組みを強化。<br>
+          トラブルを未然に防ぎ、長期就労を実現。
+        </p>
+      </div>
+      <div class="service-item" data-aos="fade-up" data-aos-delay="600">
+        <img src="https://cdn-icons-png.flaticon.com/512/2257/2257123.png" alt="代理店パートナーシップ" class="service-icon">
+        <h3 class="service-title">代理店パートナーシップ</h3>
+        <p class="service-desc">
+          国内外の代理店ネットワークと連携し、<br>
+          人材紹介・マッチング案件を拡充。<br>
+          新規事業や海外展開にも対応可能です。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+      ABOUT
+========================== -->
+<section id="about" class="section-block">
+  <span class="section-number">02</span>
+  <div class="container">
+    <div class="section-heading">
+      <h2>ABOUT US</h2>
+    </div>
+    <div class="about-content">
+      <div class="about-text-block" id="aboutText">
+        <h3>私たちONE WILLは、</h3>
+        <p></p>
+        </h3> IT技術を駆使して国際協力を加速させる――</h3>
+        <p>
+          日本国内で深刻化する人手不足に対し、私たちの使命は「国境を越えた協力体制」を創造すること。多様性が生み出す新しい発想やイノベーションを柔軟に取り込み、誰もが働きやすい環境を整えます。
+        </p>
+        <p>
+          日本国内で課題視される人手不足に対し、「国境を越えた協力体制」を創造することが私たちの使命です。多様性が生み出す新しい発想やイノベーションを取り込み、誰もが働きやすい環境を整えます。
+        </p>
+        <p>
+          私たちは、単に海外人材を紹介するだけにとどまりません。ビザ申請・生活支援・語学研修・プラットフォームを用いたIT導入サポートなど、多角的な支援体制を常にアップデートし、人と企業のポテンシャルを最大化します。
+        </p>
+        <p>
+          「すべての人が可能性を追求し、共に未来を切り拓く社会へ」――ONE WILLは、この想いを胸に挑戦を続け、さらなる成長と進化を続けていきます。
+        </p>
+        <p>
+          そう考えた私たちは、IT技術を活用し、<br>
+          国境を越えた人材が活躍できるフィールドを<br>
+          もっと簡単に、わかりやすく提供できないかと試行錯誤してきました。
+        </p>
+        <p>
+          「挑戦し続ける姿勢」と「人を思いやる心」を大切に、<br>
+          社会の課題を真正面から捉え、<br>
+          多文化共生社会の実現に向けて邁進する――。
+        </p>
+        <p>
+          それがONE WILLの存在意義であり、私たちが一番大切にしている想いです。
+        </p>
+        <img
+          src="https://picsum.photos/seed/onewillabout/600/350"
+          alt="Additional About Us Image"
+          style="margin-top: 1rem; border-radius: 8px;"
+        >
+      </div>
+      <div id="aboutImage"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+      TEAM（削除→代表紹介に置き換え）
+========================== -->
+<section id="team" style="background: #f8f9fa; padding: 4rem 0;">
+  <span class="section-number">03</span>
+  <div class="container" style="width: 90%; max-width: 1000px; margin: 0 auto; text-align: center;">
+    
+    <!-- タイトル・サブタイトル -->
+    <div style="margin-bottom: 2rem;">
+      <h2 style="
+        font-family: sans-serif; 
+        font-size: 2rem; 
+        color: #111; 
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.05em;">
+        Our Visionary Leader
+      </h2>
+      <p style="
+        font-size: 0.95rem; 
+        color: #555; 
+        line-height: 1.6; 
+        max-width: 600px; 
+        margin: 0.5rem auto 0 auto;">
+        建設×ITの未来を切り拓くリーダーの軌跡と想いをご紹介します。
+      </p>
+    </div>
+
+    <style>
+      /* カード全体 */
+      .rep-card {
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        padding: 2rem;
+        margin: 0 auto;
+        max-width: 700px;
+      }
+      .rep-photo {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 1.5rem;
+      }
+      .rep-name {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #203A43;
+        margin-bottom: 0.3rem;
+      }
+      .rep-position {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1.5rem;
+      }
+      .rep-intro {
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        max-width: 600px;
+        text-align: left;
+      }
+      .rep-email {
+        font-size: 0.9rem;
+        color: #ff5722;
+        font-weight: 600;
+        text-align: left;
+        margin-bottom: 2rem;
+      }
+      .timeline {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1.2rem;
+      }
+      .timeline-year {
+        flex: 0 0 80px;
+        font-weight: 700;
+        color: #203A43;
+        font-size: 1rem;
+      }
+      .timeline-desc {
+        flex: 1;
+        font-size: 0.9rem;
+        color: #555;
+        line-height: 1.6;
+      }
+      @media (max-width: 768px) {
+        .rep-intro, .rep-email, .timeline {
+          text-align: center;
+          margin-bottom: 1rem;
+        }
+        .timeline-item {
+          flex-direction: column;
+          align-items: center;
+        }
+        .timeline-year {
+          margin-bottom: 0.3rem;
+        }
+      }
+    </style>
+
+    <div class="rep-card">
+      <img 
+        src="https://via.placeholder.com/400x400.png?text=代表写真"
+        alt="代表写真"
+        class="rep-photo"
+      >
+      
+      <div class="rep-name">井上 裕貴</div>
+      <div class="rep-position">代表取締役 / Founder & CEO</div>
+      
+      <div class="rep-intro">
+        外資系IT企業でエンジニアとして経験を積み、仮想通貨やSNS運用といった領域にて独自の事業を立ち上げてきました。<br><br>
+        ONE WILLでは「建設業界×IT」のシナジーに着目し、国境を越えた人材の活用やクラウドテクノロジーの導入など、多角的なアプローチで社会課題の解決に挑戦しています。<br><br>
+        常に新しいアイデアを追求しながら、誰もが可能性を発揮できる環境を創り出す<br>
+――それが私のミッションです。
+      </div>
+      
+      <div class="rep-email">
+        yuki.inoue@one-will.net
+      </div>
+      
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">1996年</div>
+          <div class="timeline-desc">鹿児島県生まれ</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2016年</div>
+          <div class="timeline-desc">東京大学 入学</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2018年</div>
+          <div class="timeline-desc">国内の暗号資産取引所で長期インターン</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2020年</div>
+          <div class="timeline-desc">仮想通貨系メディア事業の運用</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2023年</div>
+          <div class="timeline-desc">
+            SNS運用代行＆自社SNSアカウント運用（2024年売却予定）
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024年</div>
+          <div class="timeline-desc">株式会社ONE WILLを創業</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+      BLOG / NEWS
+========================== -->
+<section id="blog-news" class="section-block">
+  <span class="section-number">04</span>
+  <div class="container">
+    <div class="section-heading" data-aos="fade-up">
+      <h2>ブログ/ニュース</h2>
+      <p>
+        ONE WILLが歩む未来へのステップを、<br>
+        3つのトピックでご紹介します。
+      </p>
+    </div>
+    <div class="blog-news-list" data-aos="fade-up">
+      <article class="blog-news-item">
+        <h3 class="blog-news-title">ONE WILL登記</h3>
+        <p class="blog-news-date">2024/07</p>
+        <p class="blog-news-desc">
+2024年7月に法人登記を完了。建設業界の課題をITと外国人材で解決すべく、本格始動しました。
+        </p>
+      </article>
+      <article class="blog-news-item">
+        <h3 class="blog-news-title">特定技能PRO β版公開</h3>
+        <p class="blog-news-date">2025/01</p>
+        <p class="blog-news-desc">
+企業と海外人材を結ぶシステムを先行リリース。協力企業の協力を得て試験運用し、機能を磨いています。
+        </p>
+      </article>
+      <article class="blog-news-item">
+        <h3 class="blog-news-title">特定技能PRO正式リリース</h3>
+        <p class="blog-news-date">2025/02</p>
+        <p class="blog-news-desc">
+多国籍マッチング機能を改良し、建設業界のみならず幅広く対応。さらに快適な人材活用を目指します。
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+      CONTACT
+========================== -->
+<section id="contact" class="section-block" style="background: var(--light-gray);">
+  <span class="section-number">05</span>
+  <div class="container">
+    <div class="section-heading" data-aos="fade-up">
+      <h2>CONTACT</h2>
+      <p>
+        特定技能・IT活用・建設業の求人など、あらゆるご相談を承ります。<br>
+        お気軽にお問い合わせください。
+      </p>
+    </div>
+    <p class="contact-desc" data-aos="fade-up">
+      お電話：070-9143-5763（平日 9:00〜19:00）<br>
+      または下記フォームより24時間受付可能です。
+    </p>
+    <form action="send_mail.php" method="POST" class="contact-form" data-aos="fade-up" data-aos-delay="100">
+      <div class="form-group">
+        <label for="name">お名前 (Name)</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">メールアドレス (Email)</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="category">ご希望のサービス・形態</label>
+        <select id="category" name="category" required>
+          <option value="">選択してください</option>
+          <option value="建設企業として求人を募集したい">建設企業として求人を募集したい</option>
+          <option value="登録支援機関として協業したい">登録支援機関として協業したい</option>
+          <option value="代理店として活動したい">代理店として活動したい</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">お問い合わせ内容 (Message)</label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+      <button type="submit">送信</button>
+    </form>
+  </div>
+</section>
+
+<!-- =========================
+      FOOTER
+========================== -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-logo">ONE WILL</div>
+    <p class="footer-address">
+      〒106-0045　東京都港区麻布十番2-19-4　シルバープラザ麻布十番403　TEL：070-9143-5763
+    </p>
+    <div class="footer-social">
+      <a href="#" aria-label="Twitter">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733635.png" alt="Twitter" width="24" height="24">
+      </a>
+      <a href="#" aria-label="Facebook">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" width="24" height="24">
+      </a>
+      <a href="#" aria-label="Instagram">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram" width="24" height="24">
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2025 ONE WILL Co., Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- =========================
+      SCRIPTS
+========================== -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+  // ハンバーガーメニュー
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+
+  // タイピングアニメーション
+  const sloganTexts = [
+    "建設×ITで未来を拓く",
+    "外国人材の力で社会を変える",
+    "Global Talent, Local Impact"
+  ];
+  let typingIndex = 0;
+  let charIndex = 0;
+  const typingSpeed = 100;
+  const erasingSpeed = 50;
+  const delayBetween = 1500;
+  const typingTextEl = document.getElementById('typingText');
+  const cursorEl = document.getElementById('typingCursor');
+
+  function type() {
+    if (charIndex < sloganTexts[typingIndex].length) {
+      typingTextEl.textContent += sloganTexts[typingIndex].charAt(charIndex);
+      charIndex++;
+      setTimeout(type, typingSpeed);
+    } else {
+      setTimeout(erase, delayBetween);
+    }
+  }
+  function erase() {
+    if (charIndex > 0) {
+      typingTextEl.textContent = sloganTexts[typingIndex].substring(0, charIndex - 1);
+      charIndex--;
+      setTimeout(erase, erasingSpeed);
+    } else {
+      typingIndex = (typingIndex + 1) % sloganTexts.length;
+      setTimeout(type, 500);
+    }
+  }
+  window.addEventListener('load', () => {
+    setTimeout(type, 1200);
+  });
+
+  // プリローダー制御
+  window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    preloader.classList.add('fade-out');
+  });
+
+  // AOS初期化
+  AOS.init({
+    duration: 800,
+    once: true
+  });
+
+  // GSAP + ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from("#aboutText", {
+    scrollTrigger: {
+      trigger: "#aboutText",
+      start: "top 80%",
+      toggleActions: "play none none reverse"
+    },
+    x: -50,
+    opacity: 0,
+    duration: 1
+  });
+  gsap.from("#aboutImage", {
+    scrollTrigger: {
+      trigger: "#aboutImage",
+      start: "top 80%",
+      toggleActions: "play none none reverse"
+    },
+    x: 50,
+    opacity: 0,
+    duration: 1
+  });
+</script>
+
+</body>
+</html>
+
