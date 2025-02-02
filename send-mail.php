@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 4. Slack への通知 (メールが送信成功したら実行)
     if ($isSent) {
         // SlackのIncoming Webhook URLを設定（必ず自分のURLに置き換えてください）
-        $slackWebhookUrl = 'https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXX';
+        $slackWebhookUrl = 'https://hooks.slack.com/services/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';
 
         // Slackに送るメッセージ
         $slackMessage = [
