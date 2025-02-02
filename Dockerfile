@@ -1,15 +1,18 @@
-# 1. PHP + Apache の公式イメージを使用 (8.1は例)
 FROM php:8.1-apache
 
-# 2. mbstring 等、必要な拡張をインストール（メール送信や文字列処理に必要）
-RUN docker-php-ext-install mbstring
+# 1. パッケージリスト更新 & mbstringに必要なライブラリをインストール
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libonig-dev && \
+    # 2. mbstring を有効化
+    docker-php-ext-install mbstring && \
+    # 3. 後片付け (不要なキャッシュ削除など)
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 3. ソースコードを /var/www/html にコピー
-#    "index.html", "send_mail.php", "public" フォルダなどすべて含める
+# 4. ソースコードを /var/www/html にコピー
 COPY . /var/www/html
 
-# 4. ポート80を公開
+# 5. ポート80を公開
 EXPOSE 80
 
-# 5. Apache をフォアグラウンドで起動
+# 6. Apache をフォアグラウンドで起動
 CMD ["apache2-foreground"]
