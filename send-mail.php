@@ -119,31 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ";
         } else {
             // = Slack送信成功時 =
-            echo "
-            <html lang='ja'>
-            <head>
-              <meta charset='UTF-8'>
-              <title>送信完了</title>
-              <style>
-                body { font-family: sans-serif; margin: 20px; }
-                .success-msg { border:1px solid #ccc; padding:1rem; margin:1rem 0; background:#f0f9ff; }
-                .btn-top { margin-top:1rem; padding:0.5rem 1rem; background:#203A43; color:#fff; text-decoration:none; border-radius:4px; }
-              </style>
-            </head>
-            <body>
-              <div class='success-msg'>
-                <h2>お問い合わせを受け付けました</h2>
-                <p>ありがとうございます。ページトップへ移動します。</p>
-                <a href='#' class='btn-top'>トップへ</a>
-              </div>
-              <script>
-                window.onload = function() {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-              </script>
-            </body>
-            </html>
-            ";
+            // ここを「トップページへリダイレクト」に変更
+            header("Location: index.html");
+            exit;  // 処理を終了させる
         }
     } else {
         // (メール送信がfalseならここに来るが、今は常にtrue扱い)
