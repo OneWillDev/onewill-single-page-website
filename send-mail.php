@@ -6,6 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category = isset($_POST['category']) ? trim($_POST['category']) : '';
     $message  = isset($_POST['message'])  ? trim($_POST['message'])  : '';
 
+    // -- 以下、メール送信の処理をコメントアウト --
+    /*
     // 2. メール送信用の情報を整形する
     $to       = 'sales@one-will.net'; // 実際の受信用メールアドレス
     $subject  = 'お問い合わせがありました'; // 件名
@@ -26,10 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mb_internal_encoding('UTF-8');
     $subject  = mb_encode_mimeheader($subject, 'UTF-8');
     $isSent   = mb_send_mail($to, $subject, $body, $headers);
+    */
 
-    // 4. Slack への通知 (メールが送信成功したら実行)
+    // -- ここではメール送信をスキップしてSlack通知だけ行う --
+    // 強制的に $isSent = true にしておく
+    $isSent = true;
+
+    // 4. Slack への通知
     if ($isSent) {
-        // SlackのIncoming Webhook URLを設定（必ず自分のURLに置き換えてください）
+        // SlackのIncoming Webhook URLを設定
         $slackWebhookUrl = 'https://hooks.slack.com/services/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';
 
         // Slackに送るメッセージ
@@ -59,11 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Slack送信結果をログに残すなどしたい場合はここで処理
         // 例: error_log($slackResponse);
 
-        // メール＆Slack成功時は thankyou.html に移動
+        // Slack成功時は thankyou.html に移動
         header('Location: thankyou.html');
         exit;
     } else {
-        // メール送信に失敗した場合
+        // メール送信が失敗した場合 (今回コメントアウトされているので実行されません)
         echo 'メール送信に失敗しました。しばらくしてから再度お試しください。';
     }
 } else {
