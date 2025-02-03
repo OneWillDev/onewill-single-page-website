@@ -1,17 +1,23 @@
 FROM php:8.1-apache
 
-# 1. apt-get update & mbstringのインストール (sendmailは削除)
+# Composerインストール(簡易的な方法)
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        libonig-dev \
+    apt-get install -y zip unzip && \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    rm composer-setup.php
+
+# mbstringなどの拡張モジュールインストール
+RUN apt-get install -y --no-install-recommends libonig-dev \
     && docker-php-ext-install mbstring \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 2. ソースコードを /var/www/html にコピー
+# ソースコピー
 COPY . /var/www/html
 
-# 3. ポート80を公開
-EXPOSE 80
+# Composer install 実行
+WORKDIR /var/www/html
+RUN composer install --no-dev --optimize-autoloader
 
-# 4. Apache をフォアグラウンドで起動
+EXPOSE 80
 CMD ["apache2-foreground"]
