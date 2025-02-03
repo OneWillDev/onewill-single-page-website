@@ -5,12 +5,12 @@
  */
 
 // -- Composer & Dotenvの読み込み --
-require __DIR__ . '/vendor/autoload.php';
-use Dotenv\Dotenv;
+//require __DIR__ . '/vendor/autoload.php';
+//use Dotenv\Dotenv;
 
 // .env を読み込む設定
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+//$dotenv = Dotenv::createImmutable(__DIR__);
+//$dotenv->load();
 
 // .env に書いた Slack Webhook URL を取得
 $slackWebhookUrl = getenv('SLACK_WEBHOOK_URL');
