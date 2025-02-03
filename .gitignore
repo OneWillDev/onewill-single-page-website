@@ -22,5 +22,4 @@ docker-compose.*.yml
 
 # Composer (PHP依存)
 vendor/
-composer.lock
 
