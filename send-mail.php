@@ -63,18 +63,124 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $slackErr      = curl_error($ch);
         curl_close($ch);
 
-        // Slack送信結果をログに残すなどしたい場合はここで処理
-        // 例: error_log($slackResponse);
+        if ($slackErr) {
+            // --- Slack送信失敗時 ---
 
-        // Slack成功時は thankyou.html に移動
-        header('Location: thankyou.html');
-        exit;
+            // コピー用にまとめる
+            // （メール本文として流用できるよう、文字列として整形）
+            $copyText = "以下をコピーし、sales@one-will.net 宛てにメールをお願いします。\n\n"
+                      . "=== お問い合わせ内容 ===\n"
+                      . "お名前: {$name}\n"
+                      . "メールアドレス: {$email}\n"
+                      . "ご希望のサービス・形態: {$category}\n"
+                      . "お問い合わせ内容:\n{$message}\n";
+
+            echo "
+            <html lang='ja'>
+            <head>
+              <meta charset='UTF-8'>
+              <title>送信失敗</title>
+              <style>
+                body {
+                  font-family: sans-serif;
+                  margin: 20px;
+                }
+                .fail-msg {
+                  border: 1px solid #ccc;
+                  padding: 1rem;
+                  margin: 1rem 0;
+                  background: #fff3f3;
+                }
+                .copy-btn {
+                  display: inline-block;
+                  margin-top: 1rem;
+                  padding: 0.5rem 1rem;
+                  background: #203A43;
+                  color: #fff;
+                  text-decoration: none;
+                  border-radius: 4px;
+                  cursor: pointer;
+                }
+                textarea {
+                  width: 100%;
+                  height: 150px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class='fail-msg'>
+                <h2>送信に失敗しました</h2>
+                <p>お手数をおかけしますが、<strong>以下の内容をメールで</strong>再送いただけますでしょうか。</p>
+                <p>宛先：<a href='mailto:sales@one-will.net'>sales@one-will.net</a></p>
+                
+                <!-- コピー用のテキストエリア -->
+                <textarea id='copyText' readonly>{$copyText}</textarea>
+                <br>
+                <!-- ワンクリックでコピーさせるボタン -->
+                <button class='copy-btn' onclick='copyToClipboard()'>内容をコピー</button>
+
+                <script>
+                  function copyToClipboard() {
+                    const textArea = document.getElementById('copyText');
+                    textArea.select();
+                    document.execCommand('copy');
+                    alert('入力内容をコピーしました。メールに貼り付けてください。');
+                  }
+                </script>
+
+              </div>
+            </body>
+            </html>
+            ";
+        } else {
+            // --- Slack送信成功時 ---
+            echo "
+            <html lang='ja'>
+            <head>
+              <meta charset='UTF-8'>
+              <title>送信完了</title>
+              <style>
+                body {
+                  font-family: sans-serif;
+                  margin: 20px;
+                }
+                .success-msg {
+                  border: 1px solid #ccc;
+                  padding: 1rem;
+                  margin: 1rem 0;
+                  background: #f0f9ff;
+                }
+                .btn-top {
+                  display: inline-block;
+                  margin-top: 1rem;
+                  padding: 0.5rem 1rem;
+                  background: #203A43;
+                  color: #fff;
+                  text-decoration: none;
+                  border-radius: 4px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class='success-msg'>
+                <h2>お問い合わせを受け付けました</h2>
+                <p>ありがとうございます。ページトップへ移動します。</p>
+                <a href='#' class='btn-top'>トップへ</a>
+              </div>
+              <script>
+                window.onload = function() {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              </script>
+            </body>
+            </html>
+            ";
+        }
     } else {
-        // メール送信が失敗した場合 (今回コメントアウトされているので実行されません)
-        echo 'メール送信に失敗しました。しばらくしてから再度お試しください。';
+        // (今回 $isSent = true なのでここには来ないが)
+        echo '送信に失敗しました。<br>大変お手数ですが、sales@one-will.net までメールをお願いします。';
     }
 } else {
-    // POSTでアクセスされていない場合
     echo '直接アクセスは許可されていません。';
 }
 ?>
