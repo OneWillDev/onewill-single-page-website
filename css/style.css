@@ -1,5 +1,75 @@
 /* one-will-single-page-website/css/style.css*/
+/* Noto Sans JP - Regular (サブセット) */
+@font-face {
+  font-family: 'NotoSansJPSubset';
+  src: url('../fonts/noto-sans-jp-v53-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* 先にフォールバック描画するならswap推奨 */
+}
 
+/* Noto Sans JP - semi Bold (サブセット) */
+@font-face {
+  font-family: 'NotoSansJPSubset';
+  src: url('../fonts/noto-sans-jp-v53-latin-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Noto Sans JP - Bold (サブセット) */
+@font-face {
+  font-family: 'NotoSansJPSubset';
+  src: url('../fonts/noto-sans-jp-v53-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Noto Sans JP - Most Bold (サブセット) */
+@font-face {
+  font-family: 'NotoSansJPSubset';
+  src: url('../fonts/noto-sans-jp-v53-latin-900.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Montserrat Regular */
+@font-face {
+  font-family: 'MontserratLocal';
+  src: url('../fonts/montserrat-v29-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Montserrat Semi Bold */
+@font-face {
+  font-family: 'MontserratLocal';
+  src: url('../fonts/montserrat-v29-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Montserrat Bold */
+@font-face {
+  font-family: 'MontserratLocal';
+  src: url('../fonts/montserrat-v29-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bebas Neue Regular */
+@font-face {
+  font-family: 'BebasNeueLocal';
+  src: url('../fonts/bebas-neue-v14-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 /*----------------------------------
   RESET
 ----------------------------------*/
