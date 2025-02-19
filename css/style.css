@@ -229,7 +229,7 @@
     height: 100vh;
     background: 
       linear-gradient(to bottom, var(--grad-start), var(--grad-middle), var(--grad-end)),
-      url('https://picsum.photos/1600/900?blur=2');
+      url('image/922-1600x900-blur_2.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -243,7 +243,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: url("images/construction-worker.jpg") no-repeat center/cover;
+    background: url("image/993-1600x900-blur_2.webp") no-repeat center/cover;
     filter: blur(2px);
     opacity: 0.4;
     z-index: 0;
