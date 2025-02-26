@@ -26,29 +26,11 @@
   font-display: swap;
 }
 
-/* Noto Sans JP - Most Bold (サブセット) */
-@font-face {
-  font-family: 'NotoSansJPSubset';
-  src: url('../fonts/noto-sans-jp-v53-latin-900.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* Montserrat Regular */
 @font-face {
   font-family: 'MontserratLocal';
   src: url('../fonts/montserrat-v29-latin-regular.woff2') format('woff2');
   font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Montserrat Semi Bold */
-@font-face {
-  font-family: 'MontserratLocal';
-  src: url('../fonts/montserrat-v29-latin-600.woff2') format('woff2');
-  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
@@ -159,6 +141,7 @@
     HEADER
   ----------------------------------*/
   header {
+    font-family: 'Noto Sans JP';
     position: fixed;
     top: 0; left: 0;
     width: 100%;
