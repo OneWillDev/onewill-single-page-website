@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Disallow: /send-mail.php
+Disallow: /vendor/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /Dockerfile
+Disallow: /start-server.sh
+
+# クローラーの負荷調整
+Crawl-delay: 10
+
+# サイトマップの場所を指定
+Sitemap: https://one-will.com/sitemap.xml 

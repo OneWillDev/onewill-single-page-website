@@ -1,26 +1,19 @@
 /* one-will-single-page-website/css/style.css*/
 /* Noto Sans JP - Regular (サブセット) */
 @font-face {
-  font-family: 'NotoSansJPSubset';
-  src: url('../fonts/noto-sans-jp-v53-latin-regular.woff2') format('woff2');
+  font-family: 'Noto Sans JP';
+  src: url('../fonts/NotoSansJP-Regular.woff2') format('woff2'),
+       url('../fonts/NotoSansJP-Regular.woff') format('woff');
   font-weight: 400;
-  font-style: normal;
-  font-display: swap; /* 先にフォールバック描画するならswap推奨 */
-}
-
-/* Noto Sans JP - semi Bold (サブセット) */
-@font-face {
-  font-family: 'NotoSansJPSubset';
-  src: url('../fonts/noto-sans-jp-v53-latin-500.woff2') format('woff2');
-  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 /* Noto Sans JP - Bold (サブセット) */
 @font-face {
-  font-family: 'NotoSansJPSubset';
-  src: url('../fonts/noto-sans-jp-v53-latin-700.woff2') format('woff2');
+  font-family: 'Noto Sans JP';
+  src: url('../fonts/NotoSansJP-Bold.woff2') format('woff2'),
+       url('../fonts/NotoSansJP-Bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -1151,7 +1144,7 @@
     margin-bottom: 1.2rem;
   }
   .timeline-year {
-    flex: 0 0 40px;
+    flex: 0 0 80px;
     font-weight: 700;
     color: #203A43;
     font-size: 1rem;
@@ -1175,8 +1168,8 @@
     .timeline-item {
       flex-direction: column;
       align-items: center;
-      margin-bottom: 0.5rem;
-      padding-bottom: 0.5rem;
+      margin-bottom: 0.5rem !important;
+      padding-bottom: 0.5rem !important;
       border-bottom: 1px dashed rgba(0,0,0,0.05);
     }
     .timeline-item:last-child {
