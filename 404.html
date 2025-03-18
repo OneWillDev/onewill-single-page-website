@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" href="/public/image/favicon.ico" type="favicon.ico" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>ページが見つかりません - ONE WILL</title>
+
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .error-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .error-code {
+      font-size: 10rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      line-height: 1;
+      margin-bottom: 1rem;
+      font-family: var(--logo-font);
+      background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .error-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--main-color);
+    }
+
+    .error-message {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .error-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .error-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      font-weight: 600;
+      border-radius: 50px;
+      font-size: 1rem;
+      transition: var(--transition-fast);
+      box-shadow: var(--shadow-light);
+    }
+
+    .primary-btn {
+      background-color: var(--accent-color);
+      color: #fff;
+    }
+
+    .primary-btn:hover {
+      background-color: var(--accent-color-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .secondary-btn {
+      background-color: #fff;
+      color: var(--main-color);
+      border: 1px solid #ddd;
+    }
+
+    .secondary-btn:hover {
+      background-color: #f8f8f8;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .error-image {
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .error-code {
+        font-size: 6rem;
+      }
+      .error-title {
+        font-size: 1.8rem;
+      }
+      .error-message {
+        font-size: 1rem;
+      }
+      .error-image {
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- =========================
+      HEADER
+========================== -->
+<header>
+  <div class="header-inner">
+    <div class="header-logo">
+      <a href="/">
+        <div class="logo-wrapper">
+          <div class="logo-slash"></div>
+          <div class="logo-text">
+            <div class="main-name">ONE WILL</div>
+            <div class="sub-name">建設×IT</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="header-progress-bar"></div>
+</header>
+
+<!-- =========================
+      404 CONTENT
+========================== -->
+<div class="error-container">
+
+  <h1 class="error-code">404</h1>
+  <h2 class="error-title">ページが見つかりません</h2>
+  <p class="error-message">
+    お探しのページは移動したか削除された可能性があります。<br>
+    URLが正しく入力されているか確認するか、以下のリンクからサイトをご覧ください。
+  </p>
+  <div class="error-actions">
+    <a href="/" class="error-btn primary-btn">ホームに戻る</a>
+    <a href="/#contact" class="error-btn secondary-btn">お問い合わせ</a>
+  </div>
+</div>
+
+<!-- =========================
+      FOOTER
+========================== -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-logo">ONE WILL</div>
+    <p class="footer-address">
+      〒106-0045　東京都港区麻布十番2-19-4　シルバープラザ麻布十番403　TEL：070-9143-5763
+    </p>
+    <div class="footer-social">
+      <a href="#" aria-label="Twitter">
+        <img src="/public/image/X_icon.webp" alt="Twitter" width="24" height="24">
+      </a>
+      <a href="#" aria-label="Facebook">
+        <img src="/public/image/facebook_icon.webp" alt="Facebook" width="24" height="24">
+      </a>
+      <a href="#" aria-label="Instagram">
+        <img src="/public/image/instagram_icon.webp" alt="Instagram" width="24" height="24">
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2025 ONE WILL Co., Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html> 

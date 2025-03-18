@@ -1,0 +1,12 @@
+ErrorDocument 404 /404.html
+
+# URLが実在するファイルやディレクトリを指していない場合に404を表示
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /404.html [L,R=404]
+
+# キャッシュ制御
+<FilesMatch "\.(html|htm|js|css)$">
+  Header set Cache-Control "max-age=0, must-revalidate"
+</FilesMatch> 
