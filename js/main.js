@@ -360,3 +360,86 @@ gsap.utils.toArray('.blog-news-item').forEach((item, i) => {
     delay: i * 0.2
   });
 });
+
+// Clarityの初期化
+import Clarity from '@microsoft/clarity';
+
+// プロジェクトIDの設定
+const projectId = "qto7ndar5b";
+
+// Clarityの初期化
+Clarity.init(projectId);
+
+// ページ読み込み時のイベント
+document.addEventListener('DOMContentLoaded', () => {
+  // ページ識別子の設定
+  Clarity.identify("page-" + window.location.pathname);
+  
+  // カスタムタグの設定
+  Clarity.setTag("page_type", "landing");
+  Clarity.setTag("language", "ja");
+  
+  // コンタクトフォームの送信イベント
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', () => {
+      Clarity.event("contact_form_submit");
+    });
+  }
+  
+  // サービスセクションのクリックイベント
+  const serviceLinks = document.querySelectorAll('.service-link');
+  serviceLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const serviceName = link.closest('.service-item').querySelector('.service-title').textContent;
+      Clarity.event("service_click", { service: serviceName });
+    });
+  });
+  
+  // お問い合わせボタンのクリックイベント
+  const contactButtons = document.querySelectorAll('.contact-button, .mobile-cta');
+  contactButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      Clarity.event("contact_button_click");
+    });
+  });
+  
+  // スクロールイベント
+  let lastScrollPosition = 0;
+  window.addEventListener('scroll', () => {
+    const currentScrollPosition = window.pageYOffset;
+    const scrollPercentage = Math.round((currentScrollPosition / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+    
+    // 25%、50%、75%、100%のスクロールポイントでイベントを記録
+    if (scrollPercentage >= 25 && lastScrollPosition < 25) {
+      Clarity.event("scroll_25_percent");
+    } else if (scrollPercentage >= 50 && lastScrollPosition < 50) {
+      Clarity.event("scroll_50_percent");
+    } else if (scrollPercentage >= 75 && lastScrollPosition < 75) {
+      Clarity.event("scroll_75_percent");
+    } else if (scrollPercentage >= 100 && lastScrollPosition < 100) {
+      Clarity.event("scroll_100_percent");
+    }
+    
+    lastScrollPosition = scrollPercentage;
+  });
+  
+  // モバイルメニューの開閉イベント
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.contains('open');
+      Clarity.event(isOpen ? "mobile_menu_close" : "mobile_menu_open");
+    });
+  }
+  
+  // 電話番号のクリックイベント
+  const phoneLinks = document.querySelectorAll('.header-phone, .mobile-phone');
+  phoneLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      Clarity.event("phone_number_click");
+    });
+  });
+});
