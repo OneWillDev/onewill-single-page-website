@@ -443,3 +443,97 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// Google Analytics イベントトラッキング
+document.addEventListener('DOMContentLoaded', () => {
+  // コンタクトフォームの送信イベント
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', () => {
+      gtag('event', 'contact_form_submit', {
+        'event_category': 'form',
+        'event_label': 'contact_form'
+      });
+    });
+  }
+  
+  // サービスセクションのクリックイベント
+  const serviceLinks = document.querySelectorAll('.service-link');
+  serviceLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const serviceName = link.closest('.service-item').querySelector('.service-title').textContent;
+      gtag('event', 'service_click', {
+        'event_category': 'service',
+        'event_label': serviceName
+      });
+    });
+  });
+  
+  // お問い合わせボタンのクリックイベント
+  const contactButtons = document.querySelectorAll('.contact-button, .mobile-cta');
+  contactButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      gtag('event', 'contact_button_click', {
+        'event_category': 'cta',
+        'event_label': 'contact_button'
+      });
+    });
+  });
+  
+  // スクロールイベント
+  let lastScrollPosition = 0;
+  window.addEventListener('scroll', () => {
+    const currentScrollPosition = window.pageYOffset;
+    const scrollPercentage = Math.round((currentScrollPosition / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+    
+    // 25%、50%、75%、100%のスクロールポイントでイベントを記録
+    if (scrollPercentage >= 25 && lastScrollPosition < 25) {
+      gtag('event', 'scroll_depth', {
+        'event_category': 'engagement',
+        'event_label': '25_percent'
+      });
+    } else if (scrollPercentage >= 50 && lastScrollPosition < 50) {
+      gtag('event', 'scroll_depth', {
+        'event_category': 'engagement',
+        'event_label': '50_percent'
+      });
+    } else if (scrollPercentage >= 75 && lastScrollPosition < 75) {
+      gtag('event', 'scroll_depth', {
+        'event_category': 'engagement',
+        'event_label': '75_percent'
+      });
+    } else if (scrollPercentage >= 100 && lastScrollPosition < 100) {
+      gtag('event', 'scroll_depth', {
+        'event_category': 'engagement',
+        'event_label': '100_percent'
+      });
+    }
+    
+    lastScrollPosition = scrollPercentage;
+  });
+  
+  // モバイルメニューの開閉イベント
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.contains('open');
+      gtag('event', 'mobile_menu', {
+        'event_category': 'navigation',
+        'event_label': isOpen ? 'close' : 'open'
+      });
+    });
+  }
+  
+  // 電話番号のクリックイベント
+  const phoneLinks = document.querySelectorAll('.header-phone, .mobile-phone');
+  phoneLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      gtag('event', 'phone_click', {
+        'event_category': 'contact',
+        'event_label': 'phone_number'
+      });
+    });
+  });
+});
