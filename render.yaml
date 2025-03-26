@@ -5,9 +5,21 @@ services:
     buildCommand: true
     staticPublishPath: ./
     headers:
+      # デバッグ用ヘッダー
+      - path: /*
+        name: X-Debug-Mode
+        value: "true"
+      - path: /*
+        name: X-Host-Provider
+        value: "Render"
+      - path: /*
+        name: X-CSP-Nonce
+        value: "oneWill2024"
+      # Content Security Policy
       - path: /*
         name: Content-Security-Policy
-        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.clarity.ms https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://www.google-analytics.com;"
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'nonce-oneWill2024' https://code.jquery.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.clarity.ms https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://www.google-analytics.com;"
+      # キャッシュ設定
       - path: /*
         name: Cache-Control
         value: "public, max-age=86400"
@@ -23,6 +35,9 @@ services:
       - path: /*.js
         name: Content-Type
         value: "application/javascript; charset=utf-8"
+      - path: /*.js
+        name: X-JS-Loaded
+        value: "true"
       - path: /*.jpg
         name: Cache-Control
         value: "public, max-age=604800"
@@ -35,6 +50,19 @@ services:
       - path: /*
         name: Access-Control-Allow-Origin
         value: "*"
+      # セキュリティヘッダー
+      - path: /*
+        name: X-Content-Type-Options
+        value: "nosniff"
+      - path: /*
+        name: X-XSS-Protection
+        value: "1; mode=block"
+      - path: /*
+        name: X-Frame-Options
+        value: "SAMEORIGIN"
+      - path: /*
+        name: Referrer-Policy
+        value: "strict-origin-when-cross-origin"
     routes:
       - type: rewrite
         source: /(.*)
@@ -43,3 +71,5 @@ services:
     envVars:
       - key: APACHE_MODULES
         value: rewrite headers deflate
+      - key: DEBUG_MODE
+        value: "true"

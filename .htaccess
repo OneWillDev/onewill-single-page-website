@@ -9,6 +9,11 @@ ErrorDocument 404 /404.html
 
 # キャッシュ制御
 <IfModule mod_headers.c>
+  # デバッグヘッダーを追加 - X-Debug-Info
+  Header set X-Debug-Mode "true"
+  Header set X-Script-Mode "production"
+  Header set X-CSP-Nonce "oneWill2024"
+  
   # 静的ファイルのキャッシュ制御
   <FilesMatch "\.(html|htm)$">
     Header set Cache-Control "max-age=0, must-revalidate"
@@ -16,6 +21,8 @@ ErrorDocument 404 /404.html
   
   <FilesMatch "\.(js|css)$">
     Header set Cache-Control "max-age=604800, public"
+    # JSファイルへのアクセスをログ
+    Header set X-JS-Loaded "true"
   </FilesMatch>
   
   <FilesMatch "\.(ico|pdf|jpg|jpeg|png|webp|gif|svg)$">
@@ -36,18 +43,36 @@ ErrorDocument 404 /404.html
   FileETag None
 
   # CSPヘッダーの追加
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.clarity.ms https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://www.google-analytics.com;"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'nonce-oneWill2024' https://code.jquery.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.clarity.ms https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://www.google-analytics.com;"
 </IfModule>
 
 # JavaScriptのMIMEタイプを適切に設定
 <IfModule mod_mime.c>
   AddType application/javascript .js
   AddType application/json .json
+  
+  # デバッグ用設定
+  <IfDefine DEBUG>
+    # デバッグモード時にJSファイルをテキストとして配信
+    RemoveType .js
+    AddType text/plain .js
+  </IfDefine>
 </IfModule>
 
 # mod_rewriteが利用可能な場合のみリダイレクト設定を有効にする
 <IfModule mod_rewrite.c>
+  # リダイレクト処理を記録
+  RewriteLog "/tmp/rewrite.log"
+  RewriteLogLevel 3
+  
   RewriteEngine On
+  
+  # デバッグ情報を環境変数に設定
+  RewriteRule .* - [E=DEBUG_REQ:%{REQUEST_URI}]
+  
+  # リクエストヘッダーをデバッグ用環境変数に設定
+  RewriteCond %{HTTP:Accept-Encoding} gzip
+  RewriteRule .* - [E=SUPPORTS_GZIP:true]
   
   # HTTPをHTTPSにリダイレクト
   RewriteCond %{HTTPS} off
@@ -83,4 +108,10 @@ ErrorDocument 404 /404.html
   BrowserMatch ^Mozilla/4 gzip-only-text/html
   BrowserMatch ^Mozilla/4\.0[678] no-gzip
   BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  
+  # デバッグ用ヘッダー
+  <IfModule mod_headers.c>
+    Header append Vary User-Agent env=!dont-vary
+    Header set X-Compressed "true"
+  </IfModule>
 </IfModule> 

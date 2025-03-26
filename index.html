@@ -6,7 +6,7 @@
   <link rel="icon" href="public/image/favicon.ico" type="favicon.ico" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <!-- CSP設定 -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.clarity.ms https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://www.google-analytics.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'nonce-oneWill2024' https://code.jquery.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.clarity.ms https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://www.google-analytics.com;">
   <title>ONE WILL - 建設×ITで未来を拓く | 特定技能・外国人採用支援</title>
   <meta name="description" content="ONE WILLは、建設業の人手不足を解決するため、特定技能人材の採用支援、IT活用支援、外国人材の教育・定着支援などを提供します。グローバル人材と日本企業の架け橋として、多様な採用ソリューションを実現します。" />
   <meta name="keywords" content="特定技能, 外国人採用, 建設業, 人材紹介, IT導入支援, DX, 教育研修, ビザ申請, グローバル人材" />
@@ -560,18 +560,133 @@
 <!-- =========================
       SCRIPTS
 ========================== -->
+<!-- インラインのJavaScript初期化コード -->
+<script nonce="oneWill2024">
+  // デバッグログ用関数
+  function logInline(message) {
+    if (window.console && window.console.log) {
+      console.log('[OneWill Inline]:', message);
+    }
+  }
+
+  // エラーログ用関数
+  function logInlineError(message, error) {
+    if (window.console && window.console.error) {
+      console.error('[OneWill Inline Error]:', message, error);
+    }
+  }
+
+  // 環境チェック
+  logInline('インラインスクリプト実行開始');
+  logInline('ユーザーエージェント: ' + navigator.userAgent);
+  logInline('画面サイズ: ' + window.innerWidth + 'x' + window.innerHeight);
+
+  // ページが読み込まれたときに実行される安全な初期化
+  window.oneWillInit = function() {
+    try {
+      logInline('oneWillInit関数実行開始');
+      
+      // ヘッダーとプリローダーの即時処理
+      document.body.style.visibility = 'visible';
+      var preloader = document.getElementById('preloader');
+      if (preloader) {
+        logInline('プリローダーを非表示に設定');
+        preloader.style.display = 'none';
+      } else {
+        logInline('プリローダー要素が見つかりません');
+      }
+      
+      // サービスセクションを表示
+      var services = document.getElementById('services');
+      if (services) {
+        logInline('サービスセクションを表示');
+        services.style.display = 'block';
+        services.style.visibility = 'visible';
+        services.style.opacity = '1';
+      } else {
+        logInline('services要素が見つかりません');
+      }
+      
+      // サービスアイテムを表示
+      var serviceItems = document.querySelectorAll('.service-item');
+      if (serviceItems.length > 0) {
+        logInline('サービスアイテム(' + serviceItems.length + '個)を表示');
+        for (var i = 0; i < serviceItems.length; i++) {
+          serviceItems[i].style.display = 'block';
+          serviceItems[i].style.visibility = 'visible';
+          serviceItems[i].style.opacity = '1';
+        }
+      } else {
+        logInline('service-item要素が見つかりません');
+      }
+      
+      // ライブラリの読み込み状態を確認
+      logInline('ライブラリの読み込み状態:');
+      logInline('- jQuery: ' + (typeof jQuery !== 'undefined' ? '読み込み済み' : '未読み込み'));
+      logInline('- AOS: ' + (typeof AOS !== 'undefined' ? '読み込み済み' : '未読み込み'));
+      logInline('- GSAP: ' + (typeof gsap !== 'undefined' ? '読み込み済み' : '未読み込み'));
+      logInline('- particlesJS: ' + (typeof particlesJS !== 'undefined' ? '読み込み済み' : '未読み込み'));
+      
+      logInline('oneWillInit関数実行完了');
+    } catch (error) {
+      logInlineError('oneWillInit関数でエラー発生', error);
+    }
+  };
+  
+  // DOMContentLoadedイベントとloadイベントの両方をリッスン
+  try {
+    logInline('イベントリスナーを設定');
+    
+    if (document.readyState === 'loading') {
+      logInline('document.readyState = loading - DOMContentLoadedリスナーを設定');
+      document.addEventListener('DOMContentLoaded', function() {
+        logInline('DOMContentLoadedイベント発火');
+        window.oneWillInit();
+      });
+    } else {
+      logInline('document.readyState = ' + document.readyState + ' - 即時実行');
+      window.oneWillInit();
+    }
+    
+    window.addEventListener('load', function() {
+      logInline('loadイベント発火');
+      window.oneWillInit();
+    });
+    
+    // main.jsの読み込み状態を確認するタイマー
+    setTimeout(function checkMainJs() {
+      logInline('main.jsの読み込み状態を確認中...');
+      var mainJsLoaded = false;
+      var scripts = document.querySelectorAll('script');
+      for (var i = 0; i < scripts.length; i++) {
+        if (scripts[i].src && scripts[i].src.indexOf('main.js') !== -1) {
+          logInline('main.jsスクリプトタグを確認: ' + scripts[i].src);
+          mainJsLoaded = true;
+          break;
+        }
+      }
+      
+      if (!mainJsLoaded) {
+        logInline('main.jsが読み込まれていない可能性があります');
+      }
+    }, 2000);
+  } catch (error) {
+    logInlineError('イベントリスナー設定中にエラー発生', error);
+  }
+</script>
+
 <!-- JQueryを先に読み込み -->
-<script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script nonce="oneWill2024" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <!-- 外部ライブラリ -->
-<script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script nonce="oneWill2024" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script nonce="oneWill2024" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script nonce="oneWill2024" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script nonce="oneWill2024" src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script nonce="oneWill2024" src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
 <!-- メインのJSファイル -->
-<script defer src="./js/main.js"></script>
+<script nonce="oneWill2024" src="./js/main.js"></script>
 
 </body>
 </html>
