@@ -1,29 +1,42 @@
 services:
   - type: web
-    name: tokutei-ginou-pro
+    name: onewill-website
     env: static
-    buildCommand: echo "Static site"
+    buildCommand: true
     staticPublishPath: ./
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
     headers:
       - path: /*
+        name: Content-Security-Policy
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.clarity.ms https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://www.google-analytics.com;"
+      - path: /*
         name: Cache-Control
-        value: no-cache
-      - path: /css/*
+        value: "public, max-age=86400"
+      - path: /*.html
         name: Cache-Control
-        value: max-age=31536000
-      - path: /js/*
+        value: "public, max-age=3600"
+      - path: /*.css
         name: Cache-Control
-        value: max-age=31536000
-      - path: /public/image/*
+        value: "public, max-age=3600"
+      - path: /*.js
         name: Cache-Control
-        value: max-age=31536000
-      - path: /fonts/*
+        value: "public, max-age=3600"
+      - path: /*.jpg
         name: Cache-Control
-        value: max-age=31536000
+        value: "public, max-age=604800"
+      - path: /*.png
+        name: Cache-Control
+        value: "public, max-age=604800"
+      - path: /*.ico
+        name: Cache-Control
+        value: "public, max-age=604800"
+      - path: /*
+        name: Access-Control-Allow-Origin
+        value: "*"
+    routes:
+      - type: rewrite
+        source: /(.*)
+        destination: /$1.html
+        condition: "!PathExists(/{1}) && PathExists(/{1}.html)"
     envVars:
       - key: APACHE_MODULES
-        value: rewrite headers
+        value: rewrite headers deflate
