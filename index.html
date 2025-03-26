@@ -50,6 +50,11 @@
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "qto7ndar5b");
+    
+    // 明示的にwindowオブジェクトに定義
+    window.clarity = window.clarity || function() {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
   </script>
 
   <!-- Google tag (gtag.js) -->
@@ -560,6 +565,91 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+<!-- エラー回避用のフォールバックスクリプト -->
+<script>
+  // ライブラリが読み込まれなかった場合のフォールバック処理
+  if (typeof AOS === 'undefined') {
+    window.AOS = {
+      init: function() { console.warn('AOS not loaded'); },
+      refresh: function() { console.warn('AOS not loaded'); }
+    };
+  }
+  
+  if (typeof gsap === 'undefined') {
+    window.gsap = {
+      from: function() { console.warn('GSAP not loaded'); },
+      utils: { toArray: function(selector) { return document.querySelectorAll(selector); } },
+      registerPlugin: function() { console.warn('GSAP not loaded'); }
+    };
+    window.ScrollTrigger = { };
+  }
+  
+  if (typeof particlesJS === 'undefined') {
+    window.particlesJS = function() { console.warn('ParticlesJS not loaded'); };
+  }
+  
+  if (typeof Swiper === 'undefined') {
+    window.Swiper = function() { console.warn('Swiper not loaded'); };
+  }
+  
+  // パーティクルのコンテナスタイルを確保
+  document.addEventListener('DOMContentLoaded', function() {
+    const particlesContainer = document.getElementById('particles-js');
+    if (particlesContainer) {
+      particlesContainer.style.position = 'absolute';
+      particlesContainer.style.top = '0';
+      particlesContainer.style.left = '0';
+      particlesContainer.style.width = '100%';
+      particlesContainer.style.height = '100%';
+      particlesContainer.style.zIndex = '1';
+    }
+  });
+
+  // タイピングアニメーション用の変数と関数を定義
+  const sloganTexts = [
+    "建設×ITで未来を拓く",
+    "外国人材の力で社会を変える",
+    "Global to Local Success",
+    "多様性が生み出す新しい価値"
+  ];
+  let typingIndex = 0;
+  let charIndex = 0;
+  const typingSpeed = 100;
+  const erasingSpeed = 50;
+  const delayBetween = 1500;
+
+  function type() {
+    const typingTextEl = document.getElementById('typingText');
+    if (!typingTextEl) return;
+    
+    if (charIndex < sloganTexts[typingIndex].length) {
+      typingTextEl.textContent += sloganTexts[typingIndex].charAt(charIndex);
+      charIndex++;
+      setTimeout(type, typingSpeed);
+    } else {
+      setTimeout(erase, delayBetween);
+    }
+  }
+
+  function erase() {
+    const typingTextEl = document.getElementById('typingText');
+    if (!typingTextEl) return;
+    
+    if (charIndex > 0) {
+      typingTextEl.textContent = sloganTexts[typingIndex].substring(0, charIndex - 1);
+      charIndex--;
+      setTimeout(erase, erasingSpeed);
+    } else {
+      typingIndex = (typingIndex + 1) % sloganTexts.length;
+      setTimeout(type, 500);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(type, 1200);
+  });
+</script>
 
 <!-- 分割したJSファイル -->
 <script src="js/main.js"></script>
