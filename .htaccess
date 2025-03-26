@@ -1,6 +1,12 @@
 # エラーページ設定
 ErrorDocument 404 /404.html
 
+# XMLRPCへのアクセスをブロック
+<Files xmlrpc.php>
+  Order Deny,Allow
+  Deny from all
+</Files>
+
 # キャッシュ制御
 <IfModule mod_headers.c>
   # 静的ファイルのキャッシュ制御

@@ -2,8 +2,7 @@
 /* Noto Sans JP - Regular (サブセット) */
 @font-face {
   font-family: 'Noto Sans JP';
-  src: url('../fonts/NotoSansJP-Regular.woff2') format('woff2'),
-       url('../fonts/NotoSansJP-Regular.woff') format('woff');
+  src: url('../fonts/noto-sans-jp-v53-latin-regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -12,8 +11,7 @@
 /* Noto Sans JP - Bold (サブセット) */
 @font-face {
   font-family: 'Noto Sans JP';
-  src: url('../fonts/NotoSansJP-Bold.woff2') format('woff2'),
-       url('../fonts/NotoSansJP-Bold.woff') format('woff');
+  src: url('../fonts/noto-sans-jp-v53-latin-700.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -54,9 +52,9 @@
     box-sizing: border-box;
   }
   body {
-    font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
-    color: #333;
+    font-family: var(--ff-primary);
     line-height: 1.6;
+    color: var(--text-color);
     background-color: #fff;
     overflow-x: hidden; /* 横スクロール防止 */
   }
@@ -93,6 +91,17 @@
     --shadow-medium: 0 8px 30px rgba(0,0,0,0.15);
     --transition-fast: all 0.3s ease;
     --transition-medium: all 0.5s ease;
+    --primary-color: #4a6eb5;
+    --text-color: #333;
+    --light-text: #777;
+    --white: #fff;
+    --black: #000;
+    --border-color: #e9e9e9;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --ff-primary: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --border-radius: 8px;
+    --container-width: 1200px;
   }
   
   /*----------------------------------
