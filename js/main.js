@@ -27,6 +27,32 @@
       debug('Clarityスクリプトのステータスを確認');
       if (typeof window.clarity === 'function') {
         debug('Clarityは正常に読み込まれています');
+        
+        // イベントリスナーを追加してClarityの接続エラーをトラップ
+        var originalXHROpen = window.XMLHttpRequest.prototype.open;
+        var originalXHRSend = window.XMLHttpRequest.prototype.send;
+        
+        // XMLHttpRequestをモニタリング
+        window.XMLHttpRequest.prototype.open = function() {
+          var url = arguments[1] || '';
+          if (typeof url === 'string' && url.indexOf('clarity.ms') > -1) {
+            this._isClarityRequest = true;
+            this._clarityUrl = url;
+          }
+          return originalXHROpen.apply(this, arguments);
+        };
+        
+        window.XMLHttpRequest.prototype.send = function() {
+          if (this._isClarityRequest) {
+            var xhr = this;
+            xhr.addEventListener('error', function() {
+              debug('Clarity接続エラー: ' + xhr._clarityUrl);
+              // Fallbackトラッキングまたはエラー修復処理をここに追加可能
+            });
+          }
+          return originalXHRSend.apply(this, arguments);
+        };
+        
         return true;
       } else {
         debug('Clarityが見つかりません - グローバルオブジェクトに存在しません');
