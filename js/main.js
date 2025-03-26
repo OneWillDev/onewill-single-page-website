@@ -1,8 +1,6 @@
 // one-will-single-page-website/js/main.js
 // プリローダーを非表示にする
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('main.js is running');
-  
   // プリローダーを非表示
   const preloader = document.getElementById('preloader');
   if (preloader) {
@@ -21,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', function(e) {
-      console.log('Hamburger clicked');
       e.preventDefault();
       e.stopPropagation();
       mobileMenu.classList.toggle('open');
@@ -62,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // スクロールプログレスバー
     if (headerProgressBar) {
-      const scrollTop = window.scrollY;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const docHeight = document.body.offsetHeight - window.innerHeight;
       const scrollPercent = (scrollTop / docHeight) * 100;
       headerProgressBar.style.width = scrollPercent + '%';
@@ -75,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // オフセット値を調整して、より正確に現在のセクションを検出
       const sectionTop = section.getBoundingClientRect().top + window.scrollY - 150;
       const sectionHeight = section.offsetHeight;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
       if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
         currentSection = section.getAttribute('id');
       }
@@ -169,10 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(function(){
         AOS.refresh();
       }, 500);
-      
-      console.log('AOS initialized');
     } catch (e) {
-      console.error('AOS error:', e);
+      // エラー処理
     }
   }
   
@@ -201,10 +198,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }
         });
-        console.log('Particles initialized');
       }
     } catch (e) {
-      console.error('Particles error:', e);
+      // エラー処理
     }
   }
 });

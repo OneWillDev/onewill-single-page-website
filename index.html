@@ -25,9 +25,7 @@
   <meta name="twitter:description" content="グローバル人材と日本企業の架け橋。特定技能・外国人採用支援サービス。" />
   <meta name="twitter:image" content="https://one-will.com/public/image/ogp_image.jpg" />
 
-  <!-- Google Fonts - プリロードして優先的に読み込む -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Google Fonts - シンプルに読み込む -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
   
   <!-- AOS (Animate On Scroll) CSS -->
@@ -570,30 +568,7 @@
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
-<!-- デバッグ用スクリプト -->
-<script>
-  console.log('Debug mode enabled');
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded');
-    console.log('Libraries check:');
-    console.log('- jQuery:', typeof jQuery !== 'undefined' ? 'Loaded ✓' : 'Not loaded ✗');
-    console.log('- AOS:', typeof AOS !== 'undefined' ? 'Loaded ✓' : 'Not loaded ✗');
-    console.log('- GSAP:', typeof gsap !== 'undefined' ? 'Loaded ✓' : 'Not loaded ✗');
-    console.log('- ScrollTrigger:', typeof ScrollTrigger !== 'undefined' ? 'Loaded ✓' : 'Not loaded ✗');
-    console.log('- particlesJS:', typeof particlesJS !== 'undefined' ? 'Loaded ✓' : 'Not loaded ✗');
-    console.log('- Swiper:', typeof Swiper !== 'undefined' ? 'Loaded ✓' : 'Not loaded ✗');
-    console.log('- clarity:', typeof clarity !== 'undefined' ? 'Loaded ✓' : 'Not loaded ✗');
-    console.log('- gtag:', typeof gtag !== 'undefined' ? 'Loaded ✓' : 'Not loaded ✗');
-    
-    // フォントの読み込み状態をチェック
-    document.fonts.ready.then(function() {
-      console.log('Fonts are loaded');
-      console.log('Noto Sans JP available:', document.fonts.check('1em "Noto Sans JP"'));
-    });
-  });
-</script>
-
-<!-- メインのJSファイル (type=moduleなしで通常のJSとして読み込む) -->
+<!-- メインのJSファイル -->
 <script src="js/main.js"></script>
 
 </body>
