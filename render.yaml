@@ -1,12 +1,9 @@
 services:
   - type: web
-    name: onewill-website
+    name: tokutei-ginou-pro
     env: static
-    buildCommand: echo "Static site, no build required"
+    buildCommand: echo "Static site"
     staticPublishPath: ./
-    envVars:
-      - key: APACHE_MODULES
-        value: rewrite headers
     routes:
       - type: rewrite
         source: /*
@@ -15,3 +12,18 @@ services:
       - path: /*
         name: Cache-Control
         value: no-cache
+      - path: /css/*
+        name: Cache-Control
+        value: max-age=31536000
+      - path: /js/*
+        name: Cache-Control
+        value: max-age=31536000
+      - path: /public/image/*
+        name: Cache-Control
+        value: max-age=31536000
+      - path: /fonts/*
+        name: Cache-Control
+        value: max-age=31536000
+    envVars:
+      - key: APACHE_MODULES
+        value: rewrite headers

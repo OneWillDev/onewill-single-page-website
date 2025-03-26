@@ -139,13 +139,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// プリローダー制御
-window.addEventListener('load', () => {
+// プリローダーを非表示にする
+document.addEventListener('DOMContentLoaded', function() {
+  // フォントの読み込みエラーを無視してプリローダーを非表示にする
   const preloader = document.getElementById('preloader');
-  preloader.classList.add('fade-out');
+  if (preloader) {
+    preloader.classList.add('fade-out');
+    setTimeout(() => {
+      preloader.style.display = 'none';
+    }, 500);
+  }
   
-  // パーティクル効果の初期化
-  initParticles();
+  // サイトのコンテンツを表示
+  document.body.style.visibility = 'visible';
 });
 
 // パーティクル効果
