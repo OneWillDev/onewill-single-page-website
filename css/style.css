@@ -1,17 +1,18 @@
 /* one-will-single-page-website/css/style.css*/
-/* Noto Sans JP - Regular (サブセット) */
+/* Noto Sans JP - Google Fontsから読み込む */
 @font-face {
   font-family: 'Noto Sans JP';
-  src: url('https://fonts.gstatic.com/s/notosansjp/v52/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFJEj75_Y.woff2') format('woff2');
+  src: local('Noto Sans JP'), 
+       url('https://fonts.gstatic.com/s/notosansjp/v52/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFJEj75_Y.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-/* Noto Sans JP - Bold (サブセット) */
 @font-face {
   font-family: 'Noto Sans JP';
-  src: url('https://fonts.gstatic.com/s/notosansjp/v52/-F6pfjtqLzI2JPCgQBnw7HFQei0q1H1hj-sNFQ.woff2') format('woff2');
+  src: local('Noto Sans JP Bold'), 
+       url('https://fonts.gstatic.com/s/notosansjp/v52/-F6pfjtqLzI2JPCgQBnw7HFQei0q1H1hj-sNFQ.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
