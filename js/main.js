@@ -21,6 +21,41 @@
 
   debug('main.jsが読み込まれました');
   
+  // Clarityスクリプトのロード状態を確認
+  function checkClarityStatus() {
+    try {
+      debug('Clarityスクリプトのステータスを確認');
+      if (typeof window.clarity === 'function') {
+        debug('Clarityは正常に読み込まれています');
+        return true;
+      } else {
+        debug('Clarityが見つかりません - グローバルオブジェクトに存在しません');
+        return false;
+      }
+    } catch (e) {
+      logError('Clarity確認エラー', e);
+      return false;
+    }
+  }
+  
+  // CSPエラーのモニタリング
+  function monitorCSPErrors() {
+    try {
+      debug('CSPエラーのモニタリングを開始');
+      document.addEventListener('securitypolicyviolation', function(e) {
+        logError('CSPエラー検出', {
+          'blockedURI': e.blockedURI,
+          'violatedDirective': e.violatedDirective,
+          'originalPolicy': e.originalPolicy,
+          'disposition': e.disposition,
+          'documentURI': e.documentURI
+        });
+      });
+    } catch (e) {
+      logError('CSPモニタリングエラー', e);
+    }
+  }
+  
   // 安全なセレクタ関数
   function $(selector) {
     debug('セレクタ検索: ' + selector);
@@ -61,6 +96,12 @@
   function initializePage() {
     debug('==== ページ初期化開始 ====');
     try {
+      // CSPエラーのモニタリングを開始
+      monitorCSPErrors();
+      
+      // Clarityのステータスを確認
+      checkClarityStatus();
+      
       // プリローダーを非表示
       var preloader = document.getElementById('preloader');
       if (preloader) {
@@ -395,27 +436,44 @@
         var delayBetween = 1500;
 
         function type() {
-          if (!typingTextEl) return;
-          
-          if (charIndex < sloganTexts[typingIndex].length) {
-            typingTextEl.textContent += sloganTexts[typingIndex].charAt(charIndex);
-            charIndex++;
-            setTimeout(type, typingSpeed);
-          } else {
-            setTimeout(erase, delayBetween);
+          try {
+            debug('タイピング実行: ' + charIndex + '/' + sloganTexts[typingIndex].length);
+            if (!typingTextEl) {
+              debug('typingTextElement が消失');
+              return;
+            }
+            
+            if (charIndex < sloganTexts[typingIndex].length) {
+              typingTextEl.textContent += sloganTexts[typingIndex].charAt(charIndex);
+              charIndex++;
+              setTimeout(type, typingSpeed);
+            } else {
+              setTimeout(erase, delayBetween);
+            }
+          } catch (e) {
+            logError('タイピング処理エラー', e);
           }
         }
         
         function erase() {
-          if (!typingTextEl) return;
-          
-          if (charIndex > 0) {
-            typingTextEl.textContent = sloganTexts[typingIndex].substring(0, charIndex - 1);
-            charIndex--;
-            setTimeout(erase, erasingSpeed);
-          } else {
-            typingIndex = (typingIndex + 1) % sloganTexts.length;
-            setTimeout(type, 500);
+          try {
+            debug('消去実行: ' + charIndex);
+            if (!typingTextEl) {
+              debug('typingTextElement が消失');
+              return;
+            }
+            
+            if (charIndex > 0) {
+              typingTextEl.textContent = sloganTexts[typingIndex].substring(0, charIndex - 1);
+              charIndex--;
+              setTimeout(erase, erasingSpeed);
+            } else {
+              typingIndex = (typingIndex + 1) % sloganTexts.length;
+              debug('次のスローガンへ: ' + typingIndex + ' - ' + sloganTexts[typingIndex]);
+              setTimeout(type, 500);
+            }
+          } catch (e) {
+            logError('消去処理エラー', e);
           }
         }
         

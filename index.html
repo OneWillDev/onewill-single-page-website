@@ -44,7 +44,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   
   <!-- Microsoft Clarity -->
-  <script type="text/javascript">
+  <script type="text/javascript" nonce="oneWill2024">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -59,7 +59,7 @@
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GH1YKC8EK7"></script>
-  <script>
+  <script nonce="oneWill2024">
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -87,7 +87,7 @@
   </script>
   
   <!-- 構造化データ -->
-  <script type="application/ld+json">
+  <script type="application/ld+json" nonce="oneWill2024">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -576,10 +576,21 @@
     }
   }
 
+  // CSPエラーハンドラー
+  document.addEventListener('securitypolicyviolation', function(e) {
+    logInlineError('CSP違反を検出', {
+      'blockedURI': e.blockedURI,
+      'violatedDirective': e.violatedDirective,
+      'originalPolicy': e.originalPolicy,
+      'documentURI': e.documentURI
+    });
+  });
+
   // 環境チェック
   logInline('インラインスクリプト実行開始');
   logInline('ユーザーエージェント: ' + navigator.userAgent);
   logInline('画面サイズ: ' + window.innerWidth + 'x' + window.innerHeight);
+  logInline('CSP: ' + (document.querySelector('meta[http-equiv="Content-Security-Policy"]')?.content || 'メタタグで定義されていません'));
 
   // ページが読み込まれたときに実行される安全な初期化
   window.oneWillInit = function() {
@@ -626,6 +637,18 @@
       logInline('- AOS: ' + (typeof AOS !== 'undefined' ? '読み込み済み' : '未読み込み'));
       logInline('- GSAP: ' + (typeof gsap !== 'undefined' ? '読み込み済み' : '未読み込み'));
       logInline('- particlesJS: ' + (typeof particlesJS !== 'undefined' ? '読み込み済み' : '未読み込み'));
+      
+      // スクリプト要素の確認
+      logInline('スクリプト要素の確認:');
+      var scripts = document.querySelectorAll('script');
+      for (var j = 0; j < scripts.length; j++) {
+        var script = scripts[j];
+        var hasNonce = script.hasAttribute('nonce');
+        var nonceVal = hasNonce ? script.getAttribute('nonce') : 'なし';
+        logInline('スクリプト[' + j + ']: ' + 
+                (script.src ? script.src : 'インライン') + 
+                ' - nonce属性: ' + (hasNonce ? 'あり(' + nonceVal + ')' : 'なし'));
+      }
       
       logInline('oneWillInit関数実行完了');
     } catch (error) {
