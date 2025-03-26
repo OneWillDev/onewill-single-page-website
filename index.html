@@ -562,139 +562,60 @@
 ========================== -->
 <!-- インラインのJavaScript初期化コード -->
 <script nonce="oneWill2024">
-  // デバッグログ用関数
-  function logInline(message) {
-    if (window.console && window.console.log) {
-      console.log('[OneWill Inline]:', message);
-    }
-  }
-
-  // エラーログ用関数
-  function logInlineError(message, error) {
-    if (window.console && window.console.error) {
-      console.error('[OneWill Inline Error]:', message, error);
-    }
-  }
-
   // CSPエラーハンドラー
   document.addEventListener('securitypolicyviolation', function(e) {
-    logInlineError('CSP違反を検出', {
-      'blockedURI': e.blockedURI,
-      'violatedDirective': e.violatedDirective,
-      'originalPolicy': e.originalPolicy,
-      'documentURI': e.documentURI
-    });
+    // エラー情報を記録
   });
 
   // 環境チェック
-  logInline('インラインスクリプト実行開始');
-  logInline('ユーザーエージェント: ' + navigator.userAgent);
-  logInline('画面サイズ: ' + window.innerWidth + 'x' + window.innerHeight);
-  logInline('CSP: ' + (document.querySelector('meta[http-equiv="Content-Security-Policy"]')?.content || 'メタタグで定義されていません'));
-
+  
   // ページが読み込まれたときに実行される安全な初期化
   window.oneWillInit = function() {
     try {
-      logInline('oneWillInit関数実行開始');
-      
       // ヘッダーとプリローダーの即時処理
       document.body.style.visibility = 'visible';
       var preloader = document.getElementById('preloader');
       if (preloader) {
-        logInline('プリローダーを非表示に設定');
         preloader.style.display = 'none';
-      } else {
-        logInline('プリローダー要素が見つかりません');
       }
       
       // サービスセクションを表示
       var services = document.getElementById('services');
       if (services) {
-        logInline('サービスセクションを表示');
         services.style.display = 'block';
         services.style.visibility = 'visible';
         services.style.opacity = '1';
-      } else {
-        logInline('services要素が見つかりません');
       }
       
       // サービスアイテムを表示
       var serviceItems = document.querySelectorAll('.service-item');
       if (serviceItems.length > 0) {
-        logInline('サービスアイテム(' + serviceItems.length + '個)を表示');
         for (var i = 0; i < serviceItems.length; i++) {
           serviceItems[i].style.display = 'block';
           serviceItems[i].style.visibility = 'visible';
           serviceItems[i].style.opacity = '1';
         }
-      } else {
-        logInline('service-item要素が見つかりません');
       }
-      
-      // ライブラリの読み込み状態を確認
-      logInline('ライブラリの読み込み状態:');
-      logInline('- jQuery: ' + (typeof jQuery !== 'undefined' ? '読み込み済み' : '未読み込み'));
-      logInline('- AOS: ' + (typeof AOS !== 'undefined' ? '読み込み済み' : '未読み込み'));
-      logInline('- GSAP: ' + (typeof gsap !== 'undefined' ? '読み込み済み' : '未読み込み'));
-      logInline('- particlesJS: ' + (typeof particlesJS !== 'undefined' ? '読み込み済み' : '未読み込み'));
-      
-      // スクリプト要素の確認
-      logInline('スクリプト要素の確認:');
-      var scripts = document.querySelectorAll('script');
-      for (var j = 0; j < scripts.length; j++) {
-        var script = scripts[j];
-        var hasNonce = script.hasAttribute('nonce');
-        var nonceVal = hasNonce ? script.getAttribute('nonce') : 'なし';
-        logInline('スクリプト[' + j + ']: ' + 
-                (script.src ? script.src : 'インライン') + 
-                ' - nonce属性: ' + (hasNonce ? 'あり(' + nonceVal + ')' : 'なし'));
-      }
-      
-      logInline('oneWillInit関数実行完了');
     } catch (error) {
-      logInlineError('oneWillInit関数でエラー発生', error);
+      // エラー処理
     }
   };
   
   // DOMContentLoadedイベントとloadイベントの両方をリッスン
   try {
-    logInline('イベントリスナーを設定');
-    
     if (document.readyState === 'loading') {
-      logInline('document.readyState = loading - DOMContentLoadedリスナーを設定');
       document.addEventListener('DOMContentLoaded', function() {
-        logInline('DOMContentLoadedイベント発火');
         window.oneWillInit();
       });
     } else {
-      logInline('document.readyState = ' + document.readyState + ' - 即時実行');
       window.oneWillInit();
     }
     
     window.addEventListener('load', function() {
-      logInline('loadイベント発火');
       window.oneWillInit();
     });
-    
-    // main.jsの読み込み状態を確認するタイマー
-    setTimeout(function checkMainJs() {
-      logInline('main.jsの読み込み状態を確認中...');
-      var mainJsLoaded = false;
-      var scripts = document.querySelectorAll('script');
-      for (var i = 0; i < scripts.length; i++) {
-        if (scripts[i].src && scripts[i].src.indexOf('main.js') !== -1) {
-          logInline('main.jsスクリプトタグを確認: ' + scripts[i].src);
-          mainJsLoaded = true;
-          break;
-        }
-      }
-      
-      if (!mainJsLoaded) {
-        logInline('main.jsが読み込まれていない可能性があります');
-      }
-    }, 2000);
   } catch (error) {
-    logInlineError('イベントリスナー設定中にエラー発生', error);
+    // エラー処理
   }
 </script>
 
