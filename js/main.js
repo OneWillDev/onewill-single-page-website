@@ -1,9 +1,20 @@
-// one-will-single-page-website/js/main.js
-// プリローダーを非表示にする
+// =========================
+// ONE WILL ウェブサイト用JavaScript
+// =========================
+
 (function() {
   'use strict';
   
-  // フォールバック関数
+  // 安全なセレクタ関数
+  function $(selector) {
+    return document.querySelector(selector);
+  }
+  
+  function $$(selector) {
+    return document.querySelectorAll(selector);
+  }
+  
+  // イベント登録の安全なラッパー
   function safeAddEventListener(element, event, callback) {
     if (element && typeof element.addEventListener === 'function') {
       element.addEventListener(event, callback);
@@ -12,8 +23,13 @@
     return false;
   }
   
-  // DOMContentLoaded
-  function onDOMContentLoaded() {
+  // ライブラリチェックと代替実装
+  function isLibraryAvailable(libraryName) {
+    return typeof window[libraryName] !== 'undefined';
+  }
+  
+  // メイン関数 - ページの準備完了後に実行
+  function initializePage() {
     // プリローダーを非表示
     var preloader = document.getElementById('preloader');
     if (preloader) {
@@ -28,7 +44,21 @@
       document.body.style.visibility = 'visible';
     }
     
-    // ハンバーガーメニュー
+    // ハンバーガーメニューの設定
+    setupHamburgerMenu();
+    
+    // スクロール検出の設定
+    setupScroll();
+    
+    // サービスセクションとアイテムを表示
+    showServices();
+    
+    // ライブラリ依存の機能を初期化
+    initializeLibraries();
+  }
+  
+  // ハンバーガーメニューの設定
+  function setupHamburgerMenu() {
     var hamburger = document.getElementById('hamburger');
     var mobileMenu = document.getElementById('mobileMenu');
     
@@ -58,8 +88,10 @@
         });
       }
     }
-    
-    // スクロール検出とヘッダー変更
+  }
+  
+  // スクロール検出とヘッダー変更の設定
+  function setupScroll() {
     function handleScroll() {
       var currentScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
       var header = document.querySelector('header');
@@ -82,6 +114,14 @@
       }
       
       // アクティブなナビゲーションリンクの更新
+      updateActiveNavLinks(currentScrollTop);
+
+      // セクションのフェードイン
+      animateSections();
+    }
+    
+    // アクティブなナビリンクを更新
+    function updateActiveNavLinks(scrollPos) {
       var sections = document.querySelectorAll('section[id]');
       var navLinks = document.querySelectorAll('.nav-link');
       var currentSection = '';
@@ -91,7 +131,7 @@
         var sectionTop = section.getBoundingClientRect().top + window.pageYOffset - 150;
         var sectionHeight = section.offsetHeight;
         
-        if (currentScrollTop >= sectionTop && currentScrollTop < sectionTop + sectionHeight) {
+        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
           currentSection = section.getAttribute('id');
         }
       }
@@ -103,8 +143,10 @@
           link.classList.add('active-link');
         }
       }
-
-      // セクションのフェードイン
+    }
+    
+    // セクションのアニメーション
+    function animateSections() {
       var fadeElements = document.querySelectorAll('.section-block, .shaped-section');
       for (var k = 0; k < fadeElements.length; k++) {
         var element = fadeElements[k];
@@ -119,8 +161,10 @@
     // 初回実行とスクロール時のイベント
     handleScroll();
     safeAddEventListener(window, 'scroll', handleScroll);
-    
-    // サービスセクションとアイテムを強制的に表示
+  }
+  
+  // サービスセクションの表示
+  function showServices() {
     var servicesSection = document.getElementById('services');
     if (servicesSection) {
       servicesSection.style.display = 'block';
@@ -137,9 +181,23 @@
       item.style.opacity = '1';
       item.style.transform = 'none';
     }
-    
+  }
+  
+  // ライブラリ依存機能の初期化
+  function initializeLibraries() {
     // AOS初期化
-    if (typeof window.AOS !== 'undefined') {
+    initAOS();
+    
+    // パーティクル効果の初期化
+    initParticles();
+    
+    // タイピングアニメーション開始
+    initTypingAnimation();
+  }
+  
+  // AOS初期化関数
+  function initAOS() {
+    if (isLibraryAvailable('AOS')) {
       try {
         window.AOS.init({
           duration: 800,
@@ -155,10 +213,23 @@
       } catch (e) {
         // エラー処理
       }
+    } else {
+      // AOSがない場合の代替処理
+      setBasicAnimations();
     }
-    
-    // パーティクル効果の初期化
-    if (typeof window.particlesJS !== 'undefined') {
+  }
+  
+  // 基本的なアニメーション設定
+  function setBasicAnimations() {
+    var fadeElements = document.querySelectorAll('[data-aos]');
+    for (var i = 0; i < fadeElements.length; i++) {
+      fadeElements[i].classList.add('animated');
+    }
+  }
+  
+  // particles.js初期化関数
+  function initParticles() {
+    if (isLibraryAvailable('particlesJS')) {
       try {
         var particlesContainer = document.getElementById('particles-js');
         if (particlesContainer) {
@@ -187,8 +258,10 @@
         // エラー処理
       }
     }
-    
-    // タイピングアニメーション用の変数と関数
+  }
+  
+  // タイピングアニメーション初期化関数
+  function initTypingAnimation() {
     var typingTextEl = document.getElementById('typingText');
     if (typingTextEl) {
       var sloganTexts = [
@@ -233,11 +306,57 @@
     }
   }
   
-  // DOMContentLoadedイベントリスナーの追加
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-  } else {
-    // DOMがすでに読み込まれている場合は直接実行
-    onDOMContentLoaded();
+  // 初期化処理のスケジュール設定
+  function scheduleInitialization() {
+    // DOM読み込み完了時の処理
+    function onDOMReady() {
+      // ライブラリがまだ読み込まれていない可能性があるため、少し時間をおいて実行
+      setTimeout(function() {
+        initializePage();
+      }, 100);
+    }
+    
+    // ページ読み込み完了時の処理
+    function onPageLoad() {
+      initializePage();
+    }
+    
+    // すべてのイベントに対応
+    var isDOMReadyHandled = false;
+    var isWindowLoadHandled = false;
+    
+    // DOMContentLoadedイベントの監視
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        if (!isDOMReadyHandled) {
+          isDOMReadyHandled = true;
+          onDOMReady();
+        }
+      });
+    } else {
+      // すでにDOMが読み込まれている場合
+      isDOMReadyHandled = true;
+      onDOMReady();
+    }
+    
+    // window.loadイベントの監視
+    window.addEventListener('load', function() {
+      if (!isWindowLoadHandled) {
+        isWindowLoadHandled = true;
+        onPageLoad();
+      }
+    });
+    
+    // 万が一どちらも発火しない場合のフォールバック
+    setTimeout(function() {
+      if (!isDOMReadyHandled && !isWindowLoadHandled) {
+        isDOMReadyHandled = true;
+        isWindowLoadHandled = true;
+        initializePage();
+      }
+    }, 2000);
   }
+  
+  // 初期化処理を開始
+  scheduleInitialization();
 })();
