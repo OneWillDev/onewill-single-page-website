@@ -368,28 +368,36 @@ gsap.utils.toArray('.blog-news-item').forEach((item, i) => {
 });
 
 // Clarityの初期化
-import Clarity from '@microsoft/clarity';
+// import Clarity from '@microsoft/clarity';
 
 // プロジェクトIDの設定
 const projectId = "qto7ndar5b";
 
-// Clarityの初期化
-Clarity.init(projectId);
+// Clarityの初期化（モジュールを使わないバージョン）
+if (typeof clarity !== 'undefined') {
+  clarity('set', projectId);
+}
 
 // ページ読み込み時のイベント
 document.addEventListener('DOMContentLoaded', () => {
   // ページ識別子の設定
-  Clarity.identify("page-" + window.location.pathname);
+  if (typeof clarity !== 'undefined') {
+    clarity('identify', "page-" + window.location.pathname);
+  }
   
   // カスタムタグの設定
-  Clarity.setTag("page_type", "landing");
-  Clarity.setTag("language", "ja");
+  if (typeof clarity !== 'undefined') {
+    clarity('set', "page_type", "landing");
+    clarity('set', "language", "ja");
+  }
   
   // コンタクトフォームの送信イベント
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
     contactForm.addEventListener('submit', () => {
-      Clarity.event("contact_form_submit");
+      if (typeof clarity !== 'undefined') {
+        clarity('event', "contact_form_submit");
+      }
     });
   }
   
@@ -398,7 +406,9 @@ document.addEventListener('DOMContentLoaded', () => {
   serviceLinks.forEach(link => {
     link.addEventListener('click', () => {
       const serviceName = link.closest('.service-item').querySelector('.service-title').textContent;
-      Clarity.event("service_click", { service: serviceName });
+      if (typeof clarity !== 'undefined') {
+        clarity('event', "service_click");
+      }
     });
   });
   
@@ -406,7 +416,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactButtons = document.querySelectorAll('.contact-button, .mobile-cta');
   contactButtons.forEach(button => {
     button.addEventListener('click', () => {
-      Clarity.event("contact_button_click");
+      if (typeof clarity !== 'undefined') {
+        clarity('event', "contact_button_click");
+      }
     });
   });
   
@@ -418,13 +430,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 25%、50%、75%、100%のスクロールポイントでイベントを記録
     if (scrollPercentage >= 25 && lastScrollPosition < 25) {
-      Clarity.event("scroll_25_percent");
+      if (typeof clarity !== 'undefined') {
+        clarity('event', "scroll_25_percent");
+      }
     } else if (scrollPercentage >= 50 && lastScrollPosition < 50) {
-      Clarity.event("scroll_50_percent");
+      if (typeof clarity !== 'undefined') {
+        clarity('event', "scroll_50_percent");
+      }
     } else if (scrollPercentage >= 75 && lastScrollPosition < 75) {
-      Clarity.event("scroll_75_percent");
+      if (typeof clarity !== 'undefined') {
+        clarity('event', "scroll_75_percent");
+      }
     } else if (scrollPercentage >= 100 && lastScrollPosition < 100) {
-      Clarity.event("scroll_100_percent");
+      if (typeof clarity !== 'undefined') {
+        clarity('event', "scroll_100_percent");
+      }
     }
     
     lastScrollPosition = scrollPercentage;
@@ -437,7 +457,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.contains('open');
-      Clarity.event(isOpen ? "mobile_menu_close" : "mobile_menu_open");
+      if (typeof clarity !== 'undefined') {
+        clarity('event', isOpen ? "mobile_menu_close" : "mobile_menu_open");
+      }
     });
   }
   
@@ -445,7 +467,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const phoneLinks = document.querySelectorAll('.header-phone, .mobile-phone');
   phoneLinks.forEach(link => {
     link.addEventListener('click', () => {
-      Clarity.event("phone_number_click");
+      if (typeof clarity !== 'undefined') {
+        clarity('event', "phone_number_click");
+      }
     });
   });
 });
@@ -456,10 +480,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
     contactForm.addEventListener('submit', () => {
-      gtag('event', 'contact_form_submit', {
-        'event_category': 'form',
-        'event_label': 'contact_form'
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'contact_form_submit', {
+          'event_category': 'form',
+          'event_label': 'contact_form'
+        });
+      }
     });
   }
   
@@ -468,10 +494,12 @@ document.addEventListener('DOMContentLoaded', () => {
   serviceLinks.forEach(link => {
     link.addEventListener('click', () => {
       const serviceName = link.closest('.service-item').querySelector('.service-title').textContent;
-      gtag('event', 'service_click', {
-        'event_category': 'service',
-        'event_label': serviceName
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'service_click', {
+          'event_category': 'service',
+          'event_label': serviceName
+        });
+      }
     });
   });
   
@@ -479,10 +507,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactButtons = document.querySelectorAll('.contact-button, .mobile-cta');
   contactButtons.forEach(button => {
     button.addEventListener('click', () => {
-      gtag('event', 'contact_button_click', {
-        'event_category': 'cta',
-        'event_label': 'contact_button'
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'contact_button_click', {
+          'event_category': 'cta',
+          'event_label': 'contact_button'
+        });
+      }
     });
   });
   
@@ -494,25 +524,33 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 25%、50%、75%、100%のスクロールポイントでイベントを記録
     if (scrollPercentage >= 25 && lastScrollPosition < 25) {
-      gtag('event', 'scroll_depth', {
-        'event_category': 'engagement',
-        'event_label': '25_percent'
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'scroll_depth', {
+          'event_category': 'engagement',
+          'event_label': '25_percent'
+        });
+      }
     } else if (scrollPercentage >= 50 && lastScrollPosition < 50) {
-      gtag('event', 'scroll_depth', {
-        'event_category': 'engagement',
-        'event_label': '50_percent'
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'scroll_depth', {
+          'event_category': 'engagement',
+          'event_label': '50_percent'
+        });
+      }
     } else if (scrollPercentage >= 75 && lastScrollPosition < 75) {
-      gtag('event', 'scroll_depth', {
-        'event_category': 'engagement',
-        'event_label': '75_percent'
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'scroll_depth', {
+          'event_category': 'engagement',
+          'event_label': '75_percent'
+        });
+      }
     } else if (scrollPercentage >= 100 && lastScrollPosition < 100) {
-      gtag('event', 'scroll_depth', {
-        'event_category': 'engagement',
-        'event_label': '100_percent'
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'scroll_depth', {
+          'event_category': 'engagement',
+          'event_label': '100_percent'
+        });
+      }
     }
     
     lastScrollPosition = scrollPercentage;
@@ -525,10 +563,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.contains('open');
-      gtag('event', 'mobile_menu', {
-        'event_category': 'navigation',
-        'event_label': isOpen ? 'close' : 'open'
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'mobile_menu', {
+          'event_category': 'navigation',
+          'event_label': isOpen ? 'close' : 'open'
+        });
+      }
     });
   }
   
@@ -536,10 +576,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const phoneLinks = document.querySelectorAll('.header-phone, .mobile-phone');
   phoneLinks.forEach(link => {
     link.addEventListener('click', () => {
-      gtag('event', 'phone_click', {
-        'event_category': 'contact',
-        'event_label': 'phone_number'
-      });
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'phone_click', {
+          'event_category': 'contact',
+          'event_label': 'phone_number'
+        });
+      }
     });
   });
 });
