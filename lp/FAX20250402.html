@@ -6,7 +6,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
   <!-- CSP設定 -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'nonce-oneWill2024' https://code.jquery.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.clarity.ms https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://s.clarity.ms https://c.clarity.ms https://*.clarity.ms https://www.google-analytics.com https://stats.g.doubleclick.net https://analytics.google.com;">
-  
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript" nonce="oneWill2024">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "qto7ndar5b");
+    
+    // 明示的にwindowオブジェクトに定義
+    window.clarity = window.clarity || function() {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
+  </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GH1YKC8EK7"></script>
   <script nonce="oneWill2024">
@@ -184,6 +196,11 @@
         box-shadow: var(--shadow);
       }
     }
+    
+    .cta-link {
+      display: block;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -208,8 +225,10 @@
 <section class="section" id="cta1">
   <div class="container">
     <div class="cta-wrapper">
-      <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
-      <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      <a href="#contact" class="cta-link" data-section-id="cta1">
+        <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
+        <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      </a>
     </div>
   </div>
 </section>
@@ -234,8 +253,10 @@
 <section class="section" id="cta2">
   <div class="container">
     <div class="cta-wrapper">
-      <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
-      <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      <a href="#contact" class="cta-link" data-section-id="cta2">
+        <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
+        <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      </a>
     </div>
   </div>
 </section>
@@ -252,8 +273,10 @@
 <section class="section" id="cta3">
   <div class="container">
     <div class="cta-wrapper">
-      <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
-      <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      <a href="#contact" class="cta-link" data-section-id="cta3">
+        <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
+        <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      </a>
     </div>
   </div>
 </section>
@@ -270,8 +293,10 @@
 <section class="section" id="cta4">
   <div class="container">
     <div class="cta-wrapper">
-      <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
-      <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      <a href="#contact" class="cta-link" data-section-id="cta4">
+        <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
+        <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      </a>
     </div>
   </div>
 </section>
@@ -288,8 +313,10 @@
 <section class="section" id="cta5">
   <div class="container">
     <div class="cta-wrapper">
-      <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
-      <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      <a href="#contact" class="cta-link" data-section-id="cta5">
+        <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
+        <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      </a>
     </div>
   </div>
 </section>
@@ -314,8 +341,10 @@
 <section class="section" id="cta6">
   <div class="container">
     <div class="cta-wrapper">
-      <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
-      <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      <a href="#contact" class="cta-link" data-section-id="cta6">
+        <img src="static/image/cta1x.png" alt="今すぐお申し込み" class="img-mobile">
+        <img src="static/image/cta4x.png" alt="今すぐお申し込み" class="img-desktop">
+      </a>
     </div>
   </div>
 </section>
@@ -355,15 +384,21 @@
     }
     
     // CTAボタンのクリックイベントを計測
-    var ctaLinks = document.querySelectorAll('.cta-wrapper img');
+    var ctaLinks = document.querySelectorAll('.cta-link');
     for (var i = 0; i < ctaLinks.length; i++) {
-      ctaLinks[i].addEventListener('click', function() {
+      ctaLinks[i].addEventListener('click', function(e) {
+        // どのセクションのCTAボタンがクリックされたかを識別
+        var sectionId = this.getAttribute('data-section-id');
+        
         if (typeof gtag === 'function') {
           gtag('event', 'click', {
             'event_category': 'cta',
-            'event_label': 'FAX20250402',
+            'event_label': 'FAX20250402_' + sectionId,
             'value': 1
           });
+          
+          // デバッグ用コンソールログ（本番環境では削除可）
+          console.log('CTA clicked:', sectionId);
         }
       });
     }
