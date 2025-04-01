@@ -179,11 +179,10 @@
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5WJW13HEDB"></script>
-<script>
+<script nonce="oneWill2024">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-5WJW13HEDB');
 </script>
 <body>
@@ -327,6 +326,48 @@
     <img src="static/image/footer4x.png" alt="フッター" class="img-desktop">
   </div>
 </footer>
+
+<!-- Google Analytics -->
+<script nonce="oneWill2024">
+  // URLパラメータを取得する関数
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  }
+  
+  // カスタムディメンションを設定
+  document.addEventListener('DOMContentLoaded', function() {
+    // パラメータを取得
+    var source = getUrlParameter('utm_source');
+    var campaign = getUrlParameter('utm_campaign');
+    
+    // Google Analyticsにデータを送信
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        'event_category': 'campaign',
+        'event_label': 'FAX20250402',
+        'utm_source': source || 'direct',
+        'utm_campaign': campaign || 'none'
+      });
+    }
+    
+    // CTAボタンのクリックイベントを計測
+    var ctaLinks = document.querySelectorAll('.cta-wrapper img');
+    for (var i = 0; i < ctaLinks.length; i++) {
+      ctaLinks[i].addEventListener('click', function() {
+        if (typeof gtag === 'function') {
+          gtag('event', 'click', {
+            'event_category': 'cta',
+            'event_label': 'FAX20250402',
+            'value': 1
+          });
+        }
+      });
+    }
+  });
+</script>
 
 </body>
 </html> 
