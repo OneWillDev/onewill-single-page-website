@@ -33,13 +33,13 @@
   <meta name="keywords" content="FAXキャンペーン, 特定技能, 外国人採用, 建設業, 期間限定" />
   <meta name="author" content="ONE WILL" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://one-will.com/lp/FAX20250402" />
+  <link rel="canonical" href="https://one-will.com/lp/construction_Line_A1_v1_20240409" />
 
   <!-- OGP設定 -->
   <meta property="og:title" content="【FAX専用】特定技能PROランディングページ | ONE WILL" />
   <meta property="og:description" content="FAX専用特別ランディングページ！特定技能人材の採用支援、IT活用支援、外国人材の教育・定着支援など、ONE WILLのサービスをご紹介しています！気軽にお申し込みください。" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://one-will.com/lp/FAX20250402" />
+  <meta property="og:url" content="https://one-will.com/lp/construction_Line_A1_v1_20240409" />
   <meta property="og:image" content="https://one-will.com/public/image/ogp_image.jpg" />
   <meta property="og:site_name" content="ONE WILL 特定技能PRO" />
   <meta property="og:locale" content="ja_JP" />
@@ -413,14 +413,14 @@
       if (typeof gtag === 'function') {
         gtag('event', 'page_view', {
           'event_category': 'campaign',
-          'event_label': 'FAX20250402.html',
+          'event_label': 'construction_Line_A1_v1_20240409.html',
           'utm_source': source || 'direct',
           'utm_campaign': campaign || 'none'
         });
       }
       
       // CTAボタンのクリックイベントを計測
-      var ctaLinks = document.querySelectorAll('.cta-link, .cta-button-overlay');
+      var ctaLinks = document.querySelectorAll('.custom-cta-button');
       for (var i = 0; i < ctaLinks.length; i++) {
         ctaLinks[i].addEventListener('click', function(e) {
           // どのセクションのCTAボタンがクリックされたかを識別
@@ -429,9 +429,14 @@
           if (typeof gtag === 'function') {
             gtag('event', 'click', {
               'event_category': 'cta',
-              'event_label': 'FAX20250402' + sectionId,
+              'event_label': 'construction_Line_A1_v1_20240409_' + sectionId,
               'value': 1
             });
+            
+            // Microsoft Clarityにもイベントを送信
+            if (typeof clarity === 'function') {
+              clarity('set', 'cta_click', sectionId);
+            }
             
             // デバッグ用コンソールログ（本番環境では削除可）
             console.log('CTA clicked:', sectionId);
