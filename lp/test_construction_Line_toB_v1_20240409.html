@@ -226,12 +226,14 @@
     <div class="container">
       <div class="cta-wrapper">
         <div class="custom-cta-container">
-          <a href="https://lin.ee/FBs2DLE" class="custom-cta-button" data-section-id="cta1">
+          <a href="https://lin.ee/FBs2DLE" class="custom-cta-button cta-animated" data-section-id="cta1" id="rich-cta-button">
             <div class="bubble-container">
               <img src="static/image/Union.png" alt="吹き出し" class="bubble-image">
               <span class="bubble-text">60秒でカンタン相談！</span>
             </div>
             <div class="cta-main-text">無料でLINEから相談</div>
+            <div class="shine-effect"></div>
+            <div class="pulse-ring"></div>
           </a>
         </div>
       </div>
@@ -259,14 +261,16 @@
   <!-- CTA2 -->
   <section class="section" id="cta2">
     <div class="container">
-      <div class="cta-wrapper" loading="lazy">
+      <div class="cta-wrapper">
         <div class="custom-cta-container">
-          <a href="https://lin.ee/FBs2DLE" class="custom-cta-button" data-section-id="cta2">
+          <a href="https://lin.ee/FBs2DLE" class="custom-cta-button cta-animated" data-section-id="cta2" id="rich-cta-button-2">
             <div class="bubble-container">
               <img src="static/image/Union.png" alt="吹き出し" class="bubble-image">
               <span class="bubble-text">60秒でカンタン相談！</span>
             </div>
             <div class="cta-main-text">無料でLINEから相談</div>
+            <div class="shine-effect"></div>
+            <div class="pulse-ring"></div>
           </a>
         </div>
       </div>
@@ -662,7 +666,159 @@
         left: calc(50% - 167px/2);
       }
     }
+
+    /* リッチCTAの追加スタイル - CTA1専用 */
+    #rich-cta-button {
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    #rich-cta-button .bubble-container {
+      transition: all 0.5s ease;
+    }
+    
+    #rich-cta-button .cta-main-text {
+      transition: all 0.4s ease;
+    }
+    
+    /* 光るエフェクト */
+    .shine-effect {
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: skewX(-25deg);
+      pointer-events: none;
+    }
+    
+    /* パルスエフェクト */
+    .pulse-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 12px;
+      box-shadow: 0 0 0 rgba(86, 165, 51, 0.6);
+      pointer-events: none;
+    }
+    
+    @media (min-width: 769px) {
+      .pulse-ring {
+        border-radius: 15px;
+      }
+    }
   </style>
+
+  <script nonce="oneWill2024">
+    document.addEventListener('DOMContentLoaded', function() {
+      // リッチCTAボタンのアニメーション設定関数
+      function setupRichCta(buttonId) {
+        const richCtaButton = document.getElementById(buttonId);
+        if (!richCtaButton) return;
+        
+        const shineEffect = richCtaButton.querySelector('.shine-effect');
+        const pulseRing = richCtaButton.querySelector('.pulse-ring');
+        
+        // 初期アニメーション（CTA1は1秒後、CTA2は1.5秒後）
+        const initialDelay = buttonId === 'rich-cta-button' ? 1000 : 1500;
+        setTimeout(function() {
+          richCtaButton.style.transform = 'scale(1.03)';
+          setTimeout(function() {
+            richCtaButton.style.transform = 'scale(1)';
+          }, 200);
+        }, initialDelay);
+        
+        // 定期的な光るエフェクト
+        function shineAnimation() {
+          shineEffect.style.left = '-150%';
+          setTimeout(function() {
+            shineEffect.style.transition = 'all 1s ease-in-out';
+            shineEffect.style.left = '150%';
+            
+            setTimeout(function() {
+              shineEffect.style.transition = 'none';
+              shineEffect.style.left = '-150%';
+            }, 1000);
+          }, 100);
+        }
+        
+        // パルスアニメーション
+        function pulseAnimation() {
+          pulseRing.style.boxShadow = '0 0 0 rgba(86, 165, 51, 0.6)';
+          setTimeout(function() {
+            pulseRing.style.transition = 'all 1s cubic-bezier(0.19, 1, 0.22, 1)';
+            pulseRing.style.boxShadow = '0 0 0 10px rgba(86, 165, 51, 0)';
+            
+            setTimeout(function() {
+              pulseRing.style.transition = 'none';
+            }, 1000);
+          }, 100);
+        }
+        
+        // 定期的にアニメーションを実行（ボタンによってタイミングをずらす）
+        const shineDelay = buttonId === 'rich-cta-button' ? 0 : 3000; // CTA2は3秒遅れで光る
+        const pulseDelay = buttonId === 'rich-cta-button' ? 0 : 1500; // CTA2は1.5秒遅れでパルス
+        
+        setTimeout(function() {
+          shineAnimation();
+          setInterval(shineAnimation, 6000); // 6秒ごとに光るエフェクト
+        }, shineDelay);
+        
+        setTimeout(function() {
+          pulseAnimation();
+          setInterval(pulseAnimation, 3000); // 3秒ごとにパルスエフェクト
+        }, pulseDelay);
+        
+        // ホバー時のエフェクト
+        richCtaButton.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px) scale(1.03)';
+          this.style.boxShadow = '0 10px 20px rgba(86, 165, 51, 0.4), 0 0 15px rgba(255, 255, 255, 0.3)';
+          
+          const bubbleContainer = this.querySelector('.bubble-container');
+          if (bubbleContainer) {
+            bubbleContainer.style.transform = 'translateY(-3px)';
+          }
+          
+          // 即時に光るエフェクト
+          shineAnimation();
+        });
+        
+        // マウスアウト時のエフェクト
+        richCtaButton.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+          this.style.boxShadow = '0px 4px 4px rgba(166, 160, 160, 0.25)';
+          
+          const bubbleContainer = this.querySelector('.bubble-container');
+          if (bubbleContainer) {
+            bubbleContainer.style.transform = 'translateY(0)';
+          }
+        });
+        
+        // クリック時のエフェクト
+        richCtaButton.addEventListener('mousedown', function() {
+          this.style.transform = 'translateY(0) scale(0.98)';
+          this.style.boxShadow = '0 2px 8px rgba(86, 165, 51, 0.3)';
+        });
+        
+        richCtaButton.addEventListener('mouseup', function() {
+          this.style.transform = 'translateY(-5px) scale(1.03)';
+          this.style.boxShadow = '0 10px 20px rgba(86, 165, 51, 0.4)';
+        });
+      }
+      
+      // CTA1とCTA2のリッチ効果を設定
+      setupRichCta('rich-cta-button');
+      setupRichCta('rich-cta-button-2');
+    });
+  </script>
 
 </body>
 </html> 
