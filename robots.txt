@@ -1,16 +1,15 @@
+# ONE WILL ウェブサイト - robots.txt
+# 最終更新日: 2024-06-01
+
 User-agent: *
 Allow: /
-Disallow: /send-mail.php
-Disallow: /vendor/
-Disallow: /.git/
-Disallow: /.env
-Disallow: /composer.json
-Disallow: /composer.lock
-Disallow: /Dockerfile
-Disallow: /start-server.sh
 
-# クローラーの負荷調整
-Crawl-delay: 10
+# 特定のファイルタイプへのクロールを禁止
+Disallow: /*.pdf$
+Disallow: /*.doc$
+Disallow: /*.docx$
+Disallow: /*.xls$
+Disallow: /*.xlsx$
 
-# サイトマップの場所を指定
+# サイトマップの場所
 Sitemap: https://one-will.com/sitemap.xml 
