@@ -22,6 +22,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category = isset($_POST['category']) ? trim($_POST['category']) : '';
     $message  = isset($_POST['message'])  ? trim($_POST['message'])  : '';
 
+    // バリデーション - 必須項目チェック
+    $errors = [];
+    if (empty($name)) {
+        $errors[] = 'お名前が入力されていません。';
+    }
+    if (empty($email)) {
+        $errors[] = 'メールアドレスが入力されていません。';
+    }
+    if (empty($category)) {
+        $errors[] = 'ご希望のサービスが選択されていません。';
+    }
+    if (empty($message)) {
+        $errors[] = 'お問い合わせ内容が入力されていません。';
+    }
+
+    // エラーがある場合は処理を中止
+    if (!empty($errors)) {
+        echo "
+        <html lang='ja'>
+        <head>
+          <meta charset='UTF-8'>
+          <title>入力エラー</title>
+          <style>
+            body { font-family: sans-serif; margin: 20px; }
+            .error-msg { border: 1px solid #ccc; padding: 1rem; margin: 1rem 0; background: #fff3f3; }
+            .back-btn { margin-top:1rem; padding:0.5rem 1rem; background:#203A43; color:#fff; border-radius:4px; cursor:pointer; }
+          </style>
+        </head>
+        <body>
+          <div class='error-msg'>
+            <h2>入力エラー</h2>
+            <p>以下の項目を確認してください：</p>
+            <ul>
+        ";
+        
+        foreach ($errors as $error) {
+            echo "<li>{$error}</li>";
+        }
+        
+        echo "
+            </ul>
+            <button class='back-btn' onclick='history.back()'>前のページに戻る</button>
+          </div>
+        </body>
+        </html>
+        ";
+        exit; // 処理を終了
+    }
+
     /***************************************
      * メール送信用のコードはコメントアウト
      ***************************************/

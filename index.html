@@ -505,7 +505,7 @@
     </p>
     
     <!-- ここで send_mail.php にフォームを送信する -->
-    <form action="send-mail.php" method="POST" class="contact-form card-effect" data-aos="fade-up" data-aos-delay="100">
+    <form action="send-mail.php" method="POST" class="contact-form card-effect" data-aos="fade-up" data-aos-delay="100" onsubmit="return validateForm()">
       <div class="form-group">
         <label for="name">お名前</label>
         <input type="text" id="name" name="name" placeholder="例：山田 太郎" required>
@@ -616,6 +616,17 @@
     });
   } catch (error) {
     // エラー処理
+  }
+  
+  // フォームバリデーション関数
+  function validateForm() {
+    var category = document.getElementById('category').value;
+    if (!category) {
+      alert('ご希望のサービスを選択してください。');
+      document.getElementById('category').focus();
+      return false;
+    }
+    return true;
   }
 </script>
 
