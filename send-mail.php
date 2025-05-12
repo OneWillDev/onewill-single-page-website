@@ -17,11 +17,26 @@ $slackWebhookUrl = getenv('SLACK_WEBHOOK_URL');
 
 // 1. POSTデータを受け取る
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 簡易的なハニーポットチェック（BOT対策）
+    if (isset($_POST['website']) && !empty($_POST['website'])) {
+        // 自動的に入力された隠しフィールドが埋まっていたらスパム判定
+        // ログに記録せずに静かに終了
+        exit;
+    }
+    
     $name     = isset($_POST['name'])     ? trim($_POST['name'])     : '';
     $email    = isset($_POST['email'])    ? trim($_POST['email'])    : '';
     $category = isset($_POST['category']) ? trim($_POST['category']) : '';
     $message  = isset($_POST['message'])  ? trim($_POST['message'])  : '';
-
+    
+    // 許可されたカテゴリ値のリスト
+    $allowedCategories = [
+        '建設企業として求人を募集したい',
+        '登録支援機関として協業したい',
+        '代理店として活動したい',
+        'その他のお問い合わせ'
+    ];
+    
     // バリデーション - 必須項目チェック
     $errors = [];
     if (empty($name)) {
@@ -29,12 +44,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (empty($email)) {
         $errors[] = 'メールアドレスが入力されていません。';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'メールアドレスの形式が正しくありません。';
     }
     if (empty($category)) {
         $errors[] = 'ご希望のサービスが選択されていません。';
+    } elseif (!in_array($category, $allowedCategories)) {
+        // 許可されていないカテゴリ値は拒否
+        $errors[] = 'ご希望のサービスの選択が無効です。';
     }
     if (empty($message)) {
         $errors[] = 'お問い合わせ内容が入力されていません。';
+    }
+    
+    // スパムチェック - 追加のシンプルなチェック
+    if (strlen($message) > 1000) { // 長すぎるメッセージ
+        $errors[] = 'お問い合わせ内容が長すぎます。';
+    }
+    
+    // 明らかなスパムパターンを検出
+    $spamPatterns = [
+        '/\?{3,}/', // 連続した疑問符
+        '/\!{3,}/', // 連続した感嘆符
+        '/\$\$\$/', // ドル記号の連続
+        '/viagra/i', // 一般的なスパムワード
+        '/casino/i', // 一般的なスパムワード
+        '/http:\/\//i', // HTTPリンク
+        '/https:\/\//i', // HTTPSリンク
+    ];
+    
+    foreach ($spamPatterns as $pattern) {
+        if (preg_match($pattern, $message) || preg_match($pattern, $name) || preg_match($pattern, $category)) {
+            // スパムを検出したが、攻撃者にはそれを知らせない
+            exit;
+        }
     }
 
     // エラーがある場合は処理を中止

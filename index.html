@@ -514,6 +514,10 @@
         <label for="email">メールアドレス</label>
         <input type="email" id="email" name="email" placeholder="例：info@example.com" required>
       </div>
+      <!-- ハニーポット - BOT対策の隠しフィールド -->
+      <div style="display:none">
+        <input type="text" name="website" id="website" autocomplete="off">
+      </div>
       <div class="form-group">
         <label for="category">ご希望のサービス</label>
         <select id="category" name="category" required>
@@ -621,11 +625,35 @@
   // フォームバリデーション関数
   function validateForm() {
     var category = document.getElementById('category').value;
+    var email = document.getElementById('email').value;
+    var allowedCategories = [
+      '建設企業として求人を募集したい',
+      '登録支援機関として協業したい',
+      '代理店として活動したい',
+      'その他のお問い合わせ'
+    ];
+    
+    // カテゴリチェック
     if (!category) {
       alert('ご希望のサービスを選択してください。');
       document.getElementById('category').focus();
       return false;
     }
+    
+    // カテゴリが許可リストにあるか確認
+    if (allowedCategories.indexOf(category) === -1) {
+      alert('ご希望のサービスの選択が無効です。');
+      return false;
+    }
+    
+    // メールアドレスの簡易チェック
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      alert('メールアドレスの形式が正しくありません。');
+      document.getElementById('email').focus();
+      return false;
+    }
+    
     return true;
   }
 </script>
